@@ -17,6 +17,7 @@
     "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-screens": "^2.2.0",
+    "react-native-view-pdf": "^0.10.1",
     "react-navigation": "^4.2.2",
     "react-navigation-drawer": "^2.4.2"
   },

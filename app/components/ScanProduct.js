@@ -67,15 +67,15 @@ export default class ScanProduct extends Component {
                                     'Product',
                                     `Is this ${response.result.guess}`,
                                     [
-                                      {
-                                        text: 'Yes',
-                                        onPress: () => this.handleYes(),
-                                        style: 'cancel',
-                                      },
-                                      {text: 'Retake', onPress: () => this.handleRetake()},
+                                          {
+                                                text: 'Yes',
+                                                onPress: () => this.handleYes(),
+                                                style: 'cancel',
+                                          },
+                                          { text: 'Retake', onPress: () => this.handleRetake() },
                                     ],
-                                    {cancelable: false},
-                                  );
+                                    { cancelable: false },
+                              );
                         })
                         .catch(error => {
                               // console.log("upload error", error);
