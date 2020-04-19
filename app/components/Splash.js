@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
       View,
       Text,
-      Dimensions
+      Dimensions,
+      Image
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -18,7 +19,8 @@ export default class Splash extends Component {
       componentDidMount = () => {
             setTimeout(() => {
                   // this.setState({ showSplash: false });
-                  this.props.navigation.navigate('Home');
+                  // this.props.navigation.navigate('SSOLogin');
+                  this.props.navigation.navigate('Login');
             }, 2000);
       }
 
@@ -28,8 +30,12 @@ export default class Splash extends Component {
                         // {
                               // this.state.showSplash &&
                               <View style={{ flex: 1, width, height, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text>{'USER MANUAL NIRVANA'}</Text>
-                                    <Text>{'Powered by TensorFlow'}</Text>
+                                    <Image
+                                    style={{ width: 150, height: 150 }}
+                                    source={require('../images/um-logo.png')}
+                                     />
+                                    <Text style={{ fontSize: 20, color: '#ffffff', marginTop: 10 }}>{'USER MANUAL NIRVANA'}</Text>
+                                    <Text style={{ fontSize: 16, color: '#ffffff' }}>{'Powered by TensorFlow'}</Text>
                               </View>
                         // }
                   // </View>

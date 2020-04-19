@@ -38,6 +38,10 @@ target 'mobilenetapp' do
 
   pod 'RNPDF', :path => '../node_modules/react-native-view-pdf'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+  pod 'react-native-pure-jwt', :path => '../node_modules/react-native-pure-jwt'
+
   target 'mobilenetappTests' do
     inherit! :search_paths
     # Pods for testing

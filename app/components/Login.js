@@ -1,0 +1,101 @@
+import React, { Component } from 'react';
+import { View, Text, Dimensions, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+export default class Login extends Component {
+      constructor(props) {
+            super(props);
+            this.state = {
+                  email: 'trial.user@philips.com',
+                  password: 'Test@123',
+                  emailError: null,
+                  passwordError: null
+            }
+      }
+
+      handleLogin = () => {
+            const { email, password } = this.state;
+            if (email.length === 0) {
+                  this.setState({
+                        emailError: 'Email address cannot be empty!'
+                  });
+            }
+            if (password.length === 0) {
+                  this.setState({
+                        emailError: 'Password cannot be empty!'
+                  });
+            }
+            if (email.length > 0 && password.length > 0) {
+                  let body = JSON.stringify({
+                        email: this.state.email,
+                        password: this.state.password
+                  });
+                  fetch("https://az19fgwa01t.azurewebsites.net/login", {
+                        method: "POST",
+                        headers: {
+                              'Accept': 'application/json',
+                              'Content-Type': 'application/json'
+                        },
+                        body
+                  })
+                        .then(response => response.json())
+                        .then(response => {
+                              window.UserManualNirvana.setUserDetails(response);
+                              this.props.navigation.navigate('Home');
+                        })
+                        .catch(error => {
+                              console.log("upload error", error);
+                        });
+            }
+      }
+
+      render() {
+            return (
+                  <View style={{ flex: 1, width, height, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00cc99' }}>
+                        <View style={{ width: width - 32, marginLeft: 16, marginRight: 16, marginBottom: 16, justifyContent: 'center', alignItems: 'center' }}>
+                              <Text style={{ fontSize: 24, color: '#ffffff', textAlign: 'center' }}>{'User Manual Nirvana'}</Text>
+                              <Image
+                                    style={{ width: 75, height: 75, marginTop: 16, marginBottom: 16 }}
+                                    source={require('../images/um-logo.png')}
+                              />
+                        </View>
+                        <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center' }}>
+                              <Text style={{ fontSize: 18, color: '#ffffff' }}>{'Email'}</Text>
+                        </View>
+                        <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, borderColor: '#e6e6e6', borderWidth: 1 }}>
+                              <TextInput
+                                    onChangeText={(text) => this.setState({ email: text })}
+                                    value={this.state.email}
+                                    placeholder={'Enter your email here'}
+                                    style={{ paddingLeft: 16, paddingRight: 16, color: '#ffffff' }}
+                              />
+                              {
+                                    this.state.emailError &&
+                                    <Text style={{ fontSize: 16, color: 'red' }}>{this.state.emailError}</Text>
+                              }
+                        </View>
+                        <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center' }}>
+                              <Text style={{ fontSize: 18, color: '#ffffff' }}>{'Password'}</Text>
+                        </View>
+                        <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, borderColor: '#e6e6e6', borderWidth: 1 }}>
+                              <TextInput
+                                    onChangeText={(text) => this.setState({ password: text })}
+                                    value={this.state.password}
+                                    placeholder={'Enter your password here'}
+                                    style={{ paddingLeft: 16, paddingRight: 16, color: '#ffffff' }}
+                              />
+                              {
+                                    this.state.passwordError &&
+                                    <Text style={{ fontSize: 16, color: 'red' }}>{this.state.passwordError}</Text>
+                              }
+                        </View>
+                        <TouchableOpacity onPress={() => this.handleLogin()}>
+                              <View style={{ width: width - 32, height: 50, backgroundColor: '#333333', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                                    <Text style={{ color: '#ffffff' }}>{'Login'}</Text>
+                              </View>
+                        </TouchableOpacity>
+                  </View>
+            );
+      }
+}

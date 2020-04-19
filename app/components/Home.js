@@ -3,7 +3,8 @@ import {
       View,
       Text,
       Dimensions,
-      TouchableOpacity
+      TouchableOpacity,
+      Image
 } from 'react-native';
 import AppBar from './AppBar';
 
@@ -13,18 +14,23 @@ export default class Home extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  tabs: [{
-                        tabName: 'Search Tasks'
-                  }, 
-                  {
-                        tabName: 'Scan Product'
-                  },
-                  // {
-                  //       tabName: 'Scan Barcode'
-                  // }, 
-                  {
-                        tabName: 'History'
-                  }]
+                  tabs: [
+                        {
+                              tabName: 'Scan Product',
+                              image: require('../images/scan.png')
+                        },
+                        {
+                              tabName: 'Search Tasks',
+                              image: require('../images/search.png')
+                        },
+                        // {
+                        //       tabName: 'Scan Barcode'
+                        // }, 
+                        // {
+                        //       tabName: 'History',
+                        //       image: require('../images/')
+                        // }
+                  ]
             }
       }
 
@@ -36,7 +42,7 @@ export default class Home extends Component {
                         break;
                   }
                   case 'Scan Product': {
-                        this.props.navigation.navigate('ScanProductStep1');
+                        this.props.navigation.navigate('SelectModality', { productParts: [] });
                         break;
                   }
                   case 'Scan Barcode': {
@@ -60,6 +66,7 @@ export default class Home extends Component {
                                     this.state.tabs.map((item, i) =>
                                           <TouchableOpacity onPress={() => this.handleTabItemPress(item)}>
                                                 <View style={{ alignItems: 'center', justifyContent: 'center', width: width / 2 - 8, height: height / 4, margin: 4, backgroundColor: 'white', elevation: 5 }}>
+                                                      <Image style={{ width:50, height: 50 }} source={item.image} />
                                                       <Text>{item.tabName}</Text>
                                                 </View>
                                           </TouchableOpacity>

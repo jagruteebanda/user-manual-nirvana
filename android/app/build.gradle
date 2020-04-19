@@ -185,6 +185,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-pure-jwt')
+    implementation project(':react-native-webview')
     implementation project(':react-native-view-pdf')
     implementation project(':react-native-reanimated')
     implementation fileTree(dir: "libs", include: ["*.jar"])

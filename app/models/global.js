@@ -1,0 +1,34 @@
+window.UserManualNirvana = {};
+
+window.UserManualNirvana.setUserDetails = (user) => {
+      window.UserManualNirvana['userDetails'] = user;
+}
+
+window.UserManualNirvana.getUserDetails = () => {
+      return window.UserManualNirvana['userDetails'];
+}
+
+window.UserManualNirvana.setAuthToken = (token) => {
+      window.UserManualNirvana['authToken'] = token;
+}
+
+window.UserManualNirvana.getAuthToken = () => {
+      return window.UserManualNirvana['authToken'];
+}
+
+window.UserManualNirvana.setSelectedModality = (modality) => {
+      window.UserManualNirvana['selectedModality'] = modality;
+}
+
+window.UserManualNirvana.getSelectedModality = () => {
+      return window.UserManualNirvana['selectedModality'];
+}
+
+window.UserManualNirvana.setProductDetails = (productDetails) => {
+      window.UserManualNirvana['productDetails'] = productDetails;
+}
+
+window.UserManualNirvana.getProductDetails = () => {
+      return window.UserManualNirvana['productDetails'];
+}
+
