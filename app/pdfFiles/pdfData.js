@@ -13,5 +13,10 @@ export const pdfData = {
             "name": "gantry",
             "fileName": "Philips X-Ray Service Manual.pdf",
             "url": "https://github.com/jagruteebanda/user-manual-nirvana/blob/master/app/pdfFiles/Philips%20X-Ray%20Service%20Manual.pdf?raw=true"
+      },
+      "Monitor Viewing Screen": {
+            "name": "Monitor Viewing Screen",
+            "fileName": "Philips Monitor Viewing Screen Manual Extra.pdf",
+            "url": "https://github.com/jagruteebanda/user-manual-nirvana/blob/master/app/pdfFiles/Philips%20Monitor%20Viewing%20Screen%20Manual%20Extra.pdf?raw=true"
       }
 }

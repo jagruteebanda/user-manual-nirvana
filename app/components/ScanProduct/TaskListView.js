@@ -12,13 +12,14 @@ export default class TaskListView extends Component {
       }
 
       handleTaskPress = (item) => {
-            this.props.navigation.navigate('HTMLViewScreen', { taskContent: item.taskContent });
+            // console.log(item, '+++++++++++++++++++++++++++++');
+            this.props.navigation.navigate('HTMLViewScreen', { taskContent: item });
       }
 
       renderItem = (item) => {
             return (
                   <TouchableOpacity onPress={() => this.handleTaskPress(item)}>
-                        <View style={{ flex: 1, flexDirection: 'row', width, height: 60, backgroundColor: '#ffffff', borderBottomColor: '#e6e6e6', borderBottomWidth: 1 }}>
+                        <View style={{ flex: 1, flexDirection: 'row', width, height: 60, backgroundColor: '#ffffff', borderBottomColor: '#e6e6e6', borderBottomWidth: 1, alignItems: 'center', justifyContent: 'space-between', paddingLeft: 16, paddingRight: 16 }}>
                               <Text style={{ color: '#333333' }}>{item.taskName}</Text>
                         </View>
                   </TouchableOpacity>
@@ -45,7 +46,7 @@ export default class TaskListView extends Component {
                               <FlatList
                                     data={this.state.taskData}
                                     renderItem={({ item }) => this.renderItem(item)}
-                                    keyExtractor={item => item.key}
+                                    keyExtractor={item => item.taskId}
                               />
                         </SafeAreaView>
                   </View>

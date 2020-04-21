@@ -43,7 +43,7 @@ export default class AddProductPart extends Component {
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
-                                          style={{ backgroundColor: '#e6e6e6', width: width - 32 }}
+                                          style={{ backgroundColor: '#e6e6e6', width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ productName: text })}
                                           value={this.state.productName}
                                           placeholder={'Product Name'}

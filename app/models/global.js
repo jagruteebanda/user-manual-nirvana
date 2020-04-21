@@ -32,3 +32,11 @@ window.UserManualNirvana.getProductDetails = () => {
       return window.UserManualNirvana['productDetails'];
 }
 
+window.UserManualNirvana.setPDFDetails = (pdfDetails) => {
+      window.UserManualNirvana['pdfDetails'] = pdfDetails;
+}
+
+window.UserManualNirvana.getPDFDetails = () => {
+      return window.UserManualNirvana['pdfDetails'];
+}
+

@@ -9,8 +9,9 @@ export default class HTMLViewScreen extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  taskContent: this.props.navigation.state.params.taskContent
+                  taskContent: this.props.navigation.state.params.taskContent.taskContent
             }
+            // console.log(this.props.navigation.state.params, '========================>');
       }
 
       render() {
@@ -31,7 +32,7 @@ export default class HTMLViewScreen extends Component {
                         </View>
                         <WebView
                               source={{ html: this.state.taskContent }}
-                              style={{ flex: 1, width, height: height - 100 }}
+                              style={{ flex: 1, width, height: height - 100, }}
                         />
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('TaskDataView')}>
                               <View style={{ width, height: 50, padding: 8, backgroundColor: '#333333', alignItems: 'center', justifyContent: 'center' }}>

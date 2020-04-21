@@ -64,47 +64,59 @@ export default class ScanProduct extends Component {
       handleCameraClick = async () => {
             this.handleYes();
             // TODO: Handle else part
-            // if (this.camera) {
-            //       const options = { quality: 0.5, base64: true };
-            //       const data = await this.camera.takePictureAsync(options);
-            //       const body = this.createFormData(data, { userId: '123' });
-            //       this.setState({ showCamera: false });
-            //       fetch("http://localhost:3000/apis/upload", {
-            //             method: "POST",
-            //             body
-            //       })
-            //             .then(response => response.json())
-            //             .then(response => {
-            //                   this.setState({ showCamera: true, productPartName: response.result.guess });
-            //                   Alert.alert(
-            //                         'Classified Product:',
-            //                         `Is this ${response.result.guess}?`,
-            //                         [
-            //                               {
-            //                                     text: 'Yes',
-            //                                     onPress: () => this.handleYes(),
-            //                                     style: 'cancel',
-            //                               },
-            //                               { text: 'Retake', onPress: () => this.handleRetake() },
-            //                         ],
-            //                         { cancelable: false },
-            //                   );
-            //             })
-            //             .catch(error => {
-            //                   // console.log("upload error", error);
-            //                   Alert.alert(
-            //                         'Image Classification Error:',
-            //                         `There was error while classifying product! Please try again`,
-            //                         [
-            //                               {
-            //                                     text: 'Ok',
-            //                                     onPress: () => this.handleRetake()
-            //                               }
-            //                         ],
-            //                         { cancelable: false },
-            //                   );
-            //             });
-            // }
+            if (this.camera) {
+                  const options = { quality: 0.5, base64: true };
+                  const data = await this.camera.takePictureAsync(options);
+                  const body = this.createFormData(data, { userId: '123' });
+                  this.setState({ showCamera: false });
+                  fetch("http://localhost:3000/apis/upload", {
+                        method: "POST",
+                        body
+                  })
+                        .then(response => response.json())
+                        .then(response => {
+                              this.setState({ showCamera: true, productPartName: response.result.guess });
+                              Alert.alert(
+                                    'Classified Product:',
+                                    `Is this ${response.result.guess}?`,
+                                    [
+                                          {
+                                                text: 'Yes',
+                                                onPress: () => this.handleYes(),
+                                                style: 'cancel',
+                                          },
+                                          { text: 'Retake', onPress: () => this.handleRetake() },
+                                    ],
+                                    { cancelable: false },
+                              );
+                        })
+                        .catch(error => {
+                              // console.log("upload error", error);
+                              Alert.alert(
+                                    'Image Classification Error:',
+                                    `There was error while classifying product! Please try again`,
+                                    [
+                                          {
+                                                text: 'Ok',
+                                                onPress: () => this.handleRetake()
+                                          }
+                                    ],
+                                    { cancelable: false },
+                              );
+                        });
+            } else {
+                  Alert.alert(
+                        'Camera Initialization Error:',
+                        `There was error while initializing camera! Please try again`,
+                        [
+                              {
+                                    text: 'Ok',
+                                    onPress: () => this.handleRetake()
+                              }
+                        ],
+                        { cancelable: false },
+                  );
+            }
       }
 
       render() {

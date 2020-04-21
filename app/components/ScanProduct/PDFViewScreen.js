@@ -5,7 +5,7 @@ import {
       Dimensions,
       TouchableOpacity,
       ActivityIndicator,
-      Alert
+      ToastAndroid
 } from 'react-native';
 import PDFView from 'react-native-view-pdf';
 import { pdfData } from '../../pdfFiles/pdfData';
@@ -28,7 +28,7 @@ export default class PDFViewScreen extends Component {
             // console.log(pdfData[this.state.currentProductPart])
             this.setState({
                   // pdfUrl: pdfData[this.state.currentProductPart]["url"]
-                  pdfUrl: pdfData['ultrasound']["url"],
+                  pdfUrl: pdfData['Monitor Viewing Screen']["url"],
                   loading: false
             });
             // setTimeout(() => {
@@ -39,49 +39,37 @@ export default class PDFViewScreen extends Component {
             // }, 3000);
       }
 
-      handleOk = () => {
-            this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
-      }
+      // handleOk = () => {
+      //       this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
+      // }
 
-      handleAddPart = () => {
-            this.handleOk(); // temp
-            // let selectedModality = window.UserManualNirvana.getSelectedModality();
-            // console.log('yahape aaya', selectedModality);
-            // const body = JSON.stringify([
-            //       {
-            //             "name": this.state.currentProductPart,
-            //             "description": "Added new product",
-            //             "comment": "created new",
-            //             "modalityId": selectedModality.id,
-            //       }
-            // ]);
-            // fetch("https://az19fgwa01t.azurewebsites.net/Product", {
-            //       method: "POST",
-            //       headers: {
-            //             'Accept': 'application/json',
-            //             'Content-Type': 'application/json',
-            //             'authorization': window.UserManualNirvana.getUserDetails().accessToken
-            //       },
-            //       body
-            // })
-            //       .then(response => response.json())
-            //       .then(response => {
-            //             console.log('ithe aala:: ', response);
-            //             Alert.alert(
-            //                   'Success',
-            //                   'Product has been saved successfully',
-            //                   [
-            //                         {
-            //                               text: 'Ok',
-            //                               onPress: () => this.handleOk(),
-            //                         }
-            //                   ],
-            //                   { cancelable: false },
-            //             )
-            //       })
-            //       .catch(error => {
-            //             console.log("upload error", error);
-            //       });
+      handleExtractActivityTaskList = () => {
+            const body = JSON.stringify([
+                  {
+                        "pdfFileName": "Philips Monitor Viewing Screen Manual Extra.pdf"
+                  }
+            ]);
+            fetch("http://localhost:3000/apis//pdftohtml/convert", {
+                  method: "POST",
+                  headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                  },
+                  body
+            })
+                  .then(response => response.json())
+                  .then(response => {
+                        if (response.code === 200) {
+                              // console.log('ithe aala:: ', response.results);
+                              window.UserManualNirvana.setPDFDetails(response.results);
+                              this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
+                        } else if (response.code === 403) {
+                              ToastAndroid.show('Error while extracting activity and task list from PDF', ToastAndroid.SHORT);
+                        }
+                  })
+                  .catch(error => {
+                        console.log("upload error", error);
+                  });
       }
 
       render() {
@@ -120,7 +108,7 @@ export default class PDFViewScreen extends Component {
                         </View>
                         {
                               this.state.pdfUrl !== null &&
-                              <TouchableOpacity onPress={() => this.handleAddPart()}>
+                              <TouchableOpacity onPress={() => this.handleExtractActivityTaskList()}>
                                     <View style={{ alignItems: 'center', justifyContent: 'center', width: width, height: 50, backgroundColor: '#333333' }}>
                                           <Text style={{ fontSize: 18, color: '#ffffff', textAlign: 'center' }}>{'Extract Activity and Task List'}</Text>
                                     </View>
