@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, FlatList, ToastAndroid } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, FlatList, ToastAndroid, Alert } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -59,36 +59,52 @@ export default class ActivityListView extends Component {
             Object.keys(activityTaskData).map((activityName, i) => {
                   let taskArray = [];
                   Object.keys(activityTaskData[activityName]).map((taskName, j) => {
-                        // console.log(activityTaskData[activityName][taskName]['taskData']['taskContent']);
-                        taskArray.push({
-                              taskId: j,
-                              taskName,
-                              taskDescription: `${taskName} adding to the task list`,
-                        });
                         if (activityTaskData[activityName][taskName][0]['taskData'] && activityTaskData[activityName][taskName][0]['taskData']['taskContent']) {
-                              // console.log(activityTaskData[activityName][taskName][0]['taskData']['taskContent'], '=======================');
-                              taskArray[taskArray.length - 1]['taskContent'] = activityTaskData[activityName][taskName][0]['taskData']['taskContent']
+                              taskArray.push({
+                                    id: j,
+                                    taskName,
+                                    taskDescription: `${taskName} adding to the task list`,
+                                    taskContent: activityTaskData[activityName][taskName][0]['taskData']['taskContent']
+                              });
                         }
                         return taskName;
                   });
                   activityTaskArray.push({
-                        activityId: i,
+                        id: i,
                         activityName,
                         activityDescription: `Added ${activityName} activity`,
                         activityComments: '',
-                        taskList: taskArray
+                        taskList: taskArray,
+                        addedActivity: false
                   });
                   return activityName;
             });
             this.setState({
                   activityTaskData: activityTaskArray
             }, () => {
-                  console.log(activityTaskData)
+                  // console.log(activityTaskData)
             })
       }
 
       handleActivityPress = (item) => {
-            this.props.navigation.navigate('TaskListView', { taskData: item.taskList });
+            // console.log(item.addedActivity);
+            if (!item.addedActivity) {
+                  Alert.alert(
+                        'You need to save activity to view task list!',
+                        `Do you want to save ${item.activityName} activity?`,
+                        [
+                              {
+                                    text: 'Cancel',
+                                    onPress: () => { },
+                                    style: 'cancel',
+                              },
+                              { text: 'Yes', onPress: () => this.handleAddActivity(item) },
+                        ],
+                        { cancelable: false },
+                  );
+            } else {
+                  this.props.navigation.navigate('TaskListView', { activityData: item });
+            }
       }
 
       handleAddActivity = (item) => {
@@ -114,19 +130,19 @@ export default class ActivityListView extends Component {
                   .then(response => {
                         console.log('ithe aala:: ', response);
                         if (response.statusCode === 500) {
-                              ToastAndroid.show("There was error saving thr activity!", ToastAndroid.SHORT);
+                              ToastAndroid.show("There was error saving the activity!", ToastAndroid.SHORT);
                         } else if (response.code === 200) {
-                              this.setState({
-                                    addedActivity: true
-                              });
+                              item['addedActivity'] = true;
                               // window.UserManualNirvana.setProductDetails(response[0]);
                               ToastAndroid.show("Activity has been saved successfully!", ToastAndroid.SHORT);
                               // this.props.navigation.navigate('AddProductPart', { productName: this.state.productName });
+                              this.props.navigation.navigate('TaskListView', { activityData: item });
                         }
                   })
                   .catch(error => {
                         console.log("upload error", error);
                   });
+
       }
 
       renderItem = (item) => {
@@ -134,16 +150,6 @@ export default class ActivityListView extends Component {
                   <TouchableOpacity onPress={() => this.handleActivityPress(item)}>
                         <View style={{ flex: 1, flexDirection: 'row', width, height: 60, backgroundColor: '#ffffff', borderBottomColor: '#e6e6e6', borderBottomWidth: 1, alignItems: 'center', paddingLeft: 16, paddingRight: 16, justifyContent: 'space-between' }}>
                               <Text style={{ color: '#333333' }}>{item.activityName}</Text>
-                              <TouchableOpacity onPress={() => {
-                                    this.state.addedActivity ?
-                                    ToastAndroid.show('Activity already added! Click on Activity to save its tasks', ToastAndroid.LONG)
-                                    : 
-                                    this.handleAddActivity(item)
-                              }}>
-                                    <View style={{ width: 100, height: 40, backgroundColor: this.state.addedActivity ? '#e6e6e6' : '#333333', alignItems: 'center', justifyContent: 'center' }}>
-                                          <Text style={{ color: this.state.addedActivity ? '#cdcdcd' : '#ffffff' }}>{this.state.addedActivity ? 'Added' : 'Add activity'}</Text>
-                                    </View>
-                              </TouchableOpacity>
                         </View>
                   </TouchableOpacity>
             );
@@ -169,7 +175,7 @@ export default class ActivityListView extends Component {
                               <FlatList
                                     data={this.state.activityTaskData}
                                     renderItem={({ item }) => this.renderItem(item)}
-                                    keyExtractor={item => item.activityId}
+                                    keyExtractor={item => item.id}
                               />
                         </SafeAreaView>
                   </View>

@@ -7,13 +7,22 @@ export default class TaskListView extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  taskData: this.props.navigation.state.params.taskData
+                  activityData: this.props.navigation.state.params.activityData
             }
       }
 
       handleTaskPress = (item) => {
-            // console.log(item, '+++++++++++++++++++++++++++++');
-            this.props.navigation.navigate('HTMLViewScreen', { taskContent: item });
+            // console.log(item.taskContent, '+++++++++++++++++++++++++++++');
+            const { activityData } = this.state;
+            this.props.navigation.navigate('HTMLViewScreen', {
+                  taskData: {
+                        activityName: activityData.activityName,
+                        activityDescription: activityData.activityDescription,
+                        activityComments: activityData.activityComments,
+                        task: item,
+                        addedActivity: true
+                  }
+            });
       }
 
       renderItem = (item) => {
@@ -44,7 +53,7 @@ export default class TaskListView extends Component {
                         </View>
                         <SafeAreaView style={{ flex: 1, backgroundColor: '#e6e6e6' }}>
                               <FlatList
-                                    data={this.state.taskData}
+                                    data={this.state.activityData.taskList}
                                     renderItem={({ item }) => this.renderItem(item)}
                                     keyExtractor={item => item.taskId}
                               />

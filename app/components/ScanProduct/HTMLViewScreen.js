@@ -9,9 +9,39 @@ export default class HTMLViewScreen extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  taskContent: this.props.navigation.state.params.taskContent.taskContent
+                  taskData: this.props.navigation.state.params.taskData
             }
             // console.log(this.props.navigation.state.params, '========================>');
+      }
+
+      saveTaskContent = () => {
+            let selectedModality = window.UserManualNirvana.getSelectedModality();
+            let selectedProduct = window.UserManualNirvana.getProductDetails();
+
+            let taskPayload = [
+                  {
+                    "id": 0,
+                    "_revesion": 0,
+                    "name": "string",
+                    "taskNumber": "string",
+                    "revesion": "string",
+                    "description": "string",
+                    "comment": "string",
+                    "isActive": true,
+                    "isDraft": true,
+                    "accessType": true,
+                    "contentId": 0,
+                    "modalityId": 0,
+                    "content": "string",
+                    "accessLevelId": 0,
+                    "createdAt": "2020-04-21",
+                    "updatedAt": "2020-04-21",
+                    "isDeleted": true,
+                    "tempId": 0,
+                    "isEdit": true
+                  }
+                ]
+            // this.props.navigation.navigate('TaskDataView')
       }
 
       render() {
@@ -31,10 +61,10 @@ export default class HTMLViewScreen extends Component {
                               </View>
                         </View>
                         <WebView
-                              source={{ html: this.state.taskContent }}
+                              source={{ html: this.props.navigation.state.params.taskData.task.taskContent }}
                               style={{ flex: 1, width, height: height - 100, }}
                         />
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('TaskDataView')}>
+                        <TouchableOpacity onPress={() => this.saveTaskContent()}>
                               <View style={{ width, height: 50, padding: 8, backgroundColor: '#333333', alignItems: 'center', justifyContent: 'center' }}>
                                     <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>{'Save Task Content'}</Text>
                               </View>

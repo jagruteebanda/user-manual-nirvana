@@ -27,8 +27,8 @@ export default class PDFViewScreen extends Component {
       componentDidMount = () => {
             // console.log(pdfData[this.state.currentProductPart])
             this.setState({
-                  // pdfUrl: pdfData[this.state.currentProductPart]["url"]
-                  pdfUrl: pdfData['Monitor Viewing Screen']["url"],
+                  pdfUrl: pdfData[this.state.currentProductPart]["url"],
+                  // pdfUrl: pdfData['Monitor Viewing Screen']["url"],
                   loading: false
             });
             // setTimeout(() => {
@@ -46,7 +46,7 @@ export default class PDFViewScreen extends Component {
       handleExtractActivityTaskList = () => {
             const body = JSON.stringify([
                   {
-                        "pdfFileName": "Philips Monitor Viewing Screen Manual Extra.pdf"
+                        "pdfFileName": pdfData[this.state.currentProductPart]["fileName"]
                   }
             ]);
             fetch("http://localhost:3000/apis//pdftohtml/convert", {

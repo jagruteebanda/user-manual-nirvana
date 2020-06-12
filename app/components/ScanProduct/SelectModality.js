@@ -20,7 +20,7 @@ class SelectModality extends Component {
                   selectedModality: 'Select modality',
                   noModalitySelectedError: null,
                   modalities: [],
-                  productName: 'CX50 Ultrasound',
+                  productName: 'Gantry',
                   productError: null,
                   loading: false
             }

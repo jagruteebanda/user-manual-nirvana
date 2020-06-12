@@ -7,12 +7,12 @@ export const pdfData = {
       "ultrasound": {
             "name": "ultrasound",
             "fileName": "Philips Ultrasound Service Manual.pdf",
-            "url": "https://github.com/jagruteebanda/user-manual-nirvana/blob/master/app/pdfFiles/Philips%20Ultrasound%20Service%20Manual.pdf?raw=true"
+            "url": "https://github.com/jagruteebanda/user-manual-nirvana-server/blob/master/pdfs-to-convert/Philips%20Ultrasound%20Manual.pdf?raw=true"
       },
       "gantry": {
             "name": "gantry",
-            "fileName": "Philips X-Ray Service Manual.pdf",
-            "url": "https://github.com/jagruteebanda/user-manual-nirvana/blob/master/app/pdfFiles/Philips%20X-Ray%20Service%20Manual.pdf?raw=true"
+            "fileName": "Philips Gantry Manual.pdf",
+            "url": "https://github.com/jagruteebanda/user-manual-nirvana-server/blob/master/pdfs-to-convert/Philips%20Gantry%20Manual.pdf?raw=true"
       },
       "Monitor Viewing Screen": {
             "name": "Monitor Viewing Screen",
