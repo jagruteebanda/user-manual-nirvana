@@ -6,6 +6,7 @@ import {
       TextInput,
       TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,7 +15,7 @@ export default class AddProductPart extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  productName: this.props.navigation.state.params.productName,
+                  productName: this.props.navigation.state.params.productName || '',
                   productParts: this.props.navigation.state.params.productParts
             }
             // console.log(this.props.navigation.state.params);
@@ -34,8 +35,19 @@ export default class AddProductPart extends Component {
       render() {
             return (
                   <View style={{ flex: 1, width, height }}>
-                        <View style={{ flexDirection: 'row', width, height: 50, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
-                              <Text style={{ color: '#ffffff', fontSize: 22 }}>{'Add Product Part'}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectModality')}>
+                                    <View style={{ padding: 8 }}>
+                                          {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
+                                          <Icon name="arrow-circle-left" size={20} color="#fff" />
+                                    </View>
+                              </TouchableOpacity>
+                              <View style={{}}>
+                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Add Product Part'}</Text>
+                              </View>
+                              <View style={{ opacity: 0, padding: 8 }}>
+                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
+                              </View>
                         </View>
                         <View style={{ width, height: height - 50 }}>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
@@ -65,8 +77,9 @@ export default class AddProductPart extends Component {
                                     )
                               }
                               <TouchableOpacity onPress={() => this.handleAddProductPart()}>
-                                    <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, marginTop: 16, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
-                                          <Text style={{ color: '#ffffff' }}>{'Add product part'}</Text>
+                                    <View style={{ flexDirection: 'row', width: width - 32, height: 50, marginLeft: 16, marginRight: 16, marginTop: 16, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
+                                          <Icon name={'plus-circle'} size={16} color={'#ffffff'} />
+                                          <Text style={{ marginLeft: 10, color: '#ffffff' }}>{'Add product part'}</Text>
                                     </View>
                               </TouchableOpacity>
                         </View>

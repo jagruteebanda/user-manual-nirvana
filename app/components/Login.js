@@ -15,8 +15,8 @@ export default class Login extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  email: 'trial.user@philips.com',
-                  password: 'Test@123',
+                  email: 'jagruteebanda99@gmail.com',
+                  password: 'kerctOASavVQI',
                   emailError: null,
                   passwordError: null,
                   loading: false
@@ -53,6 +53,7 @@ export default class Login extends Component {
                   })
                         .then(response => response.json())
                         .then(response => {
+                              // console.log(response);
                               window.UserManualNirvana.setUserDetails(response);
                               this.setState({
                                     loading: false

@@ -8,6 +8,8 @@ import {
       ToastAndroid
 } from 'react-native';
 import PDFView from 'react-native-view-pdf';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import { pdfData } from '../../pdfFiles/pdfData';
 
 const { width, height } = Dimensions.get('window');
@@ -19,7 +21,7 @@ export default class PDFViewScreen extends Component {
             this.state = {
                   showPdf: false,
                   pdfUrl: null,
-                  currentProductPart: this.props.navigation.state.params.productPartName,
+                  currentProductPart: this.props.navigation.state.params ? this.props.navigation.state.params.productPartName : 'Monitor Viewing Screen',
                   loading: true
             }
       }
@@ -44,12 +46,12 @@ export default class PDFViewScreen extends Component {
       // }
 
       handleExtractActivityTaskList = () => {
-            const body = JSON.stringify([
+            const body = JSON.stringify(
                   {
                         "pdfFileName": pdfData[this.state.currentProductPart]["fileName"]
                   }
-            ]);
-            fetch("http://localhost:3000/apis//pdftohtml/convert", {
+            );
+            fetch("http://localhost:3000/apis/pdftohtml/convert", {
                   method: "POST",
                   headers: {
                         'Accept': 'application/json',
@@ -60,11 +62,15 @@ export default class PDFViewScreen extends Component {
                   .then(response => response.json())
                   .then(response => {
                         if (response.code === 200) {
-                              // console.log('ithe aala:: ', response.results);
+                              console.log('ithe aala:: ', response.results);
                               window.UserManualNirvana.setPDFDetails(response.results);
                               this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
                         } else if (response.code === 403) {
                               ToastAndroid.show('Error while extracting activity and task list from PDF', ToastAndroid.SHORT);
+                        } else if (response.code === 403) {
+                              ToastAndroid.show('Internal server error occurred', ToastAndroid.SHORT);
+                        } else {
+                              ToastAndroid.show('No response', ToastAndroid.SHORT);
                         }
                   })
                   .catch(error => {
@@ -78,14 +84,15 @@ export default class PDFViewScreen extends Component {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
                               <TouchableOpacity onPress={() => this.props.navigation.navigate('ScanProduct')}>
                                     <View style={{ padding: 8 }}>
-                                          <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text>
+                                          {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
+                                          <Icon name="arrow-circle-left" size={20} color="#fff" />
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'PDF View'}</Text>
+                                    <Text style={{ color: 'white', fontSize: 18 }}>{'PDF View Screen'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text>
+                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
                               </View>
                         </View>
                         <View style={{ flex: 1, backgroundColor: '#e6e6e6' }}>
@@ -109,8 +116,9 @@ export default class PDFViewScreen extends Component {
                         {
                               this.state.pdfUrl !== null &&
                               <TouchableOpacity onPress={() => this.handleExtractActivityTaskList()}>
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', width: width, height: 50, backgroundColor: '#333333' }}>
-                                          <Text style={{ fontSize: 18, color: '#ffffff', textAlign: 'center' }}>{'Extract Activity and Task List'}</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: width, height: 50, backgroundColor: '#333333' }}>
+                                          <Icon name="clipboard-list" size={20} color="#fff" />
+                                          <Text style={{ marginLeft: 8, fontSize: 18, color: '#ffffff', textAlign: 'center' }}>{'Extract Activity and Task List'}</Text>
                                     </View>
                               </TouchableOpacity>
                         }

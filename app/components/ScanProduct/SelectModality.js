@@ -9,6 +9,7 @@ import {
       ToastAndroid,
       ActivityIndicator
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,7 +21,7 @@ class SelectModality extends Component {
                   selectedModality: 'Select modality',
                   noModalitySelectedError: null,
                   modalities: [],
-                  productName: 'Gantry',
+                  productName: 'CX50 Ultrasound',
                   productError: null,
                   loading: false
             }
@@ -114,8 +115,19 @@ class SelectModality extends Component {
       render() {
             return (
                   <View style={{ flex: 1, width, height }}>
-                        <View style={{ flexDirection: 'row', width, height: 50, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
-                              <Text style={{ color: '#ffffff', fontSize: 22 }}>{'Select Modality'}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+                                    <View style={{ padding: 8 }}>
+                                          {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
+                                          <Icon name="arrow-circle-left" size={20} color="#fff" />
+                                    </View>
+                              </TouchableOpacity>
+                              <View style={{}}>
+                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Select Modality'}</Text>
+                              </View>
+                              <View style={{ opacity: 0, padding: 8 }}>
+                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
+                              </View>
                         </View>
                         {
                               this.state.loading ?
@@ -132,7 +144,7 @@ class SelectModality extends Component {
                                           <View style={{ height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', borderColor: '#e6e6e6', borderWidth: 1 }}>
                                                 <Picker
                                                       selectedValue={this.state.language}
-                                                      style={{ height: 50, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                                      style={{ height: 50, width: width - 32, marginLeft: 16, paddingRight: 16 }}
                                                       onValueChange={(itemValue, itemIndex) => this.handleModalityChange(itemValue)}>
                                                       <Picker.Item label={this.state.selectedModality} value={this.state.selectedModality} />
                                                       {
@@ -163,8 +175,9 @@ class SelectModality extends Component {
                                                 <Text style={{ fontSize: 16, color: 'red', textAlign: 'left', marginLeft: 16 }}>{this.state.productError}</Text>
                                           }
                                           <TouchableOpacity onPress={() => this.handleStartGeneratingManual()}>
-                                                <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, marginTop: 16, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
-                                                      <Text style={{ color: '#ffffff' }}>{'Start Generating Manual'}</Text>
+                                                <View style={{ flexDirection: 'row', width: width - 32, height: 50, marginLeft: 16, marginRight: 16, marginTop: 16, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
+                                                      <Icon name={'file-pdf'} size={16} color={'#ff0000'} />
+                                                      <Text style={{ marginLeft: 10, color: '#ffffff' }}>{'Start Generating Manual'}</Text>
                                                 </View>
                                           </TouchableOpacity>
                                     </View>

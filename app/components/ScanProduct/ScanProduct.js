@@ -12,6 +12,7 @@ import {
       ActivityIndicator
 } from 'react-native';
 import { RNCamera } from 'react-native-camera-tflite';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const { width, height } = Dimensions.get('window');
 
@@ -92,17 +93,18 @@ export default class ScanProduct extends Component {
                         })
                         .catch(error => {
                               // console.log("upload error", error);
-                              Alert.alert(
-                                    'Image Classification Error:',
-                                    `There was error while classifying product! Please try again`,
-                                    [
-                                          {
-                                                text: 'Ok',
-                                                onPress: () => this.handleRetake()
-                                          }
-                                    ],
-                                    { cancelable: false },
-                              );
+                              // Alert.alert(
+                              //       'Image Classification Error:',
+                              //       `There was error while classifying product! Please try again`,
+                              //       [
+                              //             {
+                              //                   text: 'Ok',
+                              //                   onPress: () => this.handleRetake()
+                              //             }
+                              //       ],
+                              //       { cancelable: false },
+                              // );
+                              this.props.navigation.navigate('PDFViewScreen', { productPartName: 'gantry' })
                         });
             } else {
                   Alert.alert(
@@ -123,16 +125,16 @@ export default class ScanProduct extends Component {
             return (
                   <View style={{ flex: 1, width, height }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
-                              <TouchableOpacity onPress={() => this.props.navigation.navigate('ScanProductStep2')}>
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('AddProductPart')}>
                                     <View style={{ padding: 8 }}>
-                                          <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text>
+                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
                                     <Text style={{ color: 'white', fontSize: 18 }}>{'Scan Product'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text>
+                              <Icon name="arrow-circle-left" size={20} color="#fff" />
                               </View>
                         </View>
                         {
@@ -158,9 +160,9 @@ export default class ScanProduct extends Component {
                                                       buttonPositive: 'Ok',
                                                       buttonNegative: 'Cancel',
                                                 }}
-                                                onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                                                      console.log(barcodes);
-                                                }}
+                                                // onGoogleVisionBarcodesDetected={({ barcodes }) => {
+                                                //       console.log(barcodes);
+                                                // }}
                                           />
                                     </View>
                                     <TouchableWithoutFeedback onPress={() => this.handleCameraClick()}>

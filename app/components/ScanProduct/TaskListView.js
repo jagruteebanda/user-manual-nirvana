@@ -7,7 +7,17 @@ export default class TaskListView extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  activityData: this.props.navigation.state.params.activityData
+                  activityData: this.props.navigation.state.params ? this.props.navigation.state.params.activityData : {
+                        key: 'activity-3',
+                        activityId: 3,
+                        activityName: 'Safety',
+                        activityDescription: 'activity',
+                        tasks: [{
+                              taskName: 'Task 3',
+                              taskDescription: 'Task 3 description',
+                              taskContent: ''
+                        }]
+                  }
             }
       }
 

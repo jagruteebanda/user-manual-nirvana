@@ -6,8 +6,8 @@ export const pdfData = {
       },
       "ultrasound": {
             "name": "ultrasound",
-            "fileName": "Philips Ultrasound Service Manual.pdf",
-            "url": "https://github.com/jagruteebanda/user-manual-nirvana-server/blob/master/pdfs-to-convert/Philips%20Ultrasound%20Manual.pdf?raw=true"
+            "fileName": "Philips Monitor Viewing Screen Manual Extra.pdf",
+            "url": "https://github.com/jagruteebanda/user-manual-nirvana/blob/master/app/pdfFiles/Philips%20Monitor%20Viewing%20Screen%20Manual%20Extra.pdf?raw=true"
       },
       "gantry": {
             "name": "gantry",

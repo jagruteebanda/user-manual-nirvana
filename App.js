@@ -24,6 +24,7 @@ import ActivityListView from './app/components/ScanProduct/ActivityListView'; //
 import TaskListView from './app/components/ScanProduct/TaskListView'; // step 6
 import HTMLViewScreen from './app/components/ScanProduct/HTMLViewScreen'; // step 6
 import TaskDataView from './app/components/ScanProduct/TaskDataView'; // step 7
+import UploadTask from './app/components/ScanProduct/UploadTask'; // step 7
 import SearchTasks from './app/components/SearchTasks';
 
 const DRAWER_WIDTH = Dimensions.get('window').width * 0.83;
@@ -67,6 +68,9 @@ const RouteConfigs = {
 	},
 	TaskDataView: {
 		screen: TaskDataView
+	},
+	UploadTask: {
+		screen: UploadTask
 	},
 	SearchTasks: {
 		screen: SearchTasks
