@@ -47,9 +47,9 @@ export default class PDFViewScreen extends Component {
 
       handleExtractActivityTaskList = () => {
             const body = JSON.stringify(
-                  {
+                  [{
                         "pdfFileName": pdfData[this.state.currentProductPart]["fileName"]
-                  }
+                  }]
             );
             fetch("http://localhost:3000/apis/pdftohtml/convert", {
                   method: "POST",
@@ -61,8 +61,8 @@ export default class PDFViewScreen extends Component {
             })
                   .then(response => response.json())
                   .then(response => {
+                        console.log('ithe aala:: ', response.results);
                         if (response.code === 200) {
-                              console.log('ithe aala:: ', response.results);
                               window.UserManualNirvana.setPDFDetails(response.results);
                               this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
                         } else if (response.code === 403) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity, Text, TextInput, Picker } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text, TextInput, Picker, ToastAndroid } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const { width, height } = Dimensions.get('window');
 
@@ -8,26 +9,41 @@ export default class UploadTask extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  taskName: this.props.navigation.state.params || '',
+                  taskName: this.props.navigation.state.params.taskData.taskName || '',
                   accessLevelId: 1,
-                  taskDescription: this.props.navigation.state.params || ''
+                  revesionNumber: '123456',
+                  taskDescription: this.props.navigation.state.params.taskData.taskDescription || ''
             }
+            // console.log(Object.keys(this.props.navigation.state.params.taskData));
       }
 
       saveTaskContent = () => {
+            let taskData = this.props.navigation.state.params.taskData;
+            // console.log(Object.keys(taskData));
             let selectedModality = window.UserManualNirvana.getSelectedModality();
-            let productDetails = window.UserManualNirvana.getProductDetails();
-            let activityDetails = window.UserManualNirvana.getActivityDetails();
+            // let productDetails = window.UserManualNirvana.getProductDetails();
+            // let activityDetails = window.UserManualNirvana.getActivityDetails();
             const body = JSON.stringify([
                   {
-                        "taskName": this.state.productName,
-                        "taskDescription": "Added new product",
-                        "modalityId": selectedModality.id,
-                        "productId": productDetails.id,
-                        "activityId": activityDetails.id
+                        // "taskName": this.state.taskName,
+                        // "taskDescription": "Added new product",
+                        // "modalityId": selectedModality.id,
+                        // "productId": productDetails.id,
+                        // "activityId": activityDetails.id,
+                        // "accessToken": window.UserManualNirvana.getUserDetails().accessToken
+                        name: this.state.taskName,
+                        taskNumber: `${selectedModality.abbr}_*`,
+                        accessLevelId: 1,
+                        contentId: taskData.contentId,
+                        description: this.state.taskDescription,
+                        revesion: this.state.revesionNumber,
+                        isDraft: true,
+                        isActive: true,
+                        _revesion: 0,
+                        modalityId: selectedModality.id
                   }
             ]);
-            fetch("http://localhost:3000/apis/html/upload", {
+            fetch('https://az19fgwa01t.azurewebsites.net/Task', {
                   method: "POST",
                   headers: {
                         'Accept': 'application/json',
@@ -38,7 +54,7 @@ export default class UploadTask extends Component {
             })
                   .then(response => response.json())
                   .then(response => {
-                        // console.log('ithe aala:: ', response);
+                        console.log('ithe aala:: ', response);
                         this.setState({
                               loading: false
                         });
@@ -47,6 +63,7 @@ export default class UploadTask extends Component {
                         } else {
                               // window.UserManualNirvana.setProductDetails(response[0]);
                               ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
+                              this.props.navigation.navigate('TaskListView', { taskAdded: taskData });
                               // this.props.navigation.goBack(); // check this
                         }
                   })
@@ -60,19 +77,22 @@ export default class UploadTask extends Component {
       }
 
       render() {
+            const { taskData } = this.props.navigation.state.params;
             return (
                   <View style={{ flex: 1, width, height }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
-                              <TouchableOpacity onPress={() => this.props.navigation.navigate('ActivityListView')}>
+                              <TouchableOpacity onPress={() => this.props.navigation.navigate('TaskListView')}>
                                     <View style={{ padding: 8 }}>
-                                          <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text>
+                                          {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
+                                          <Icon name="arrow-circle-left" size={20} color="#fff" />
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
                                     <Text style={{ color: 'white', fontSize: 18 }}>{'Upload Task'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text>
+                                    {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
+                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
                               </View>
                         </View>
                         <View style={{ flex: 1, width, height: height - 84 }}>
@@ -82,7 +102,7 @@ export default class UploadTask extends Component {
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
                                           style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
-                                          onChangeText={(text) => this.setState({ productName: text })}
+                                          onChangeText={(text) => this.setState({ taskName: text })}
                                           value={this.state.taskName}
                                           placeholder={'Enter task name here'}
                                     />
@@ -111,8 +131,8 @@ export default class UploadTask extends Component {
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
                                           style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
-                                          onChangeText={(text) => this.setState({ productName: text })}
-                                          value={this.state.taskName}
+                                          onChangeText={(text) => this.setState({ revesionNumber: text })}
+                                          value={this.state.revesionNumber}
                                           placeholder={'Enter revesion number here'}
                                     />
                               </View>
@@ -122,8 +142,8 @@ export default class UploadTask extends Component {
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
                                           style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
-                                          onChangeText={(text) => this.setState({ productName: text })}
-                                          value={this.state.taskName}
+                                          onChangeText={(text) => this.setState({ taskDescription: text })}
+                                          value={this.state.taskDescription}
                                           placeholder={'Enter task description here'}
                                     />
                               </View>

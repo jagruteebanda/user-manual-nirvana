@@ -9,82 +9,82 @@ export default class ActivityListView extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  // activityTaskData: [],
+                  activityTaskData: [],
                   addedActivity: false,
-                  activityTaskData: [{
-                        key: 'activity-1',
-                        activityId: 1,
-                        activityName: 'REPAIR',
-                        activityDescription: 'activity',
-                        tasks: [{
-                              taskName: 'Task 1',
-                              taskDescription: 'Task 1 description',
-                              taskContent: '<html>hi Jagrutee</html>'
-                        }, {
-                              taskName: 'Task 2',
-                              taskDescription: 'Task 2 description',
-                              taskContent: ''
-                        }]
-                  }, {
-                        key: 'activity-2',
-                        activityId: 2,
-                        activityName: 'INSTALLATION',
-                        activityDescription: 'activity',
-                        tasks: [{
-                              taskName: 'Task 2',
-                              taskDescription: 'Task 2 description',
-                              taskContent: ''
-                        },
-                        {
-                              taskName: 'Task 5',
-                              taskDescription: 'Task 5 description',
-                              taskContent: ''
-                        }]
-                  }, {
-                        key: 'activity-3',
-                        activityId: 3,
-                        activityName: 'SAFETY',
-                        activityDescription: 'activity',
-                        tasks: [{
-                              taskName: 'Task 3',
-                              taskDescription: 'Task 3 description',
-                              taskContent: ''
-                        }]
-                  }]
+                  // activityTaskData: [{
+                  //       key: 'activity-1',
+                  //       activityId: 1,
+                  //       activityName: 'REPAIR',
+                  //       activityDescription: 'activity',
+                  //       tasks: [{
+                  //             taskName: 'Task 1',
+                  //             taskDescription: 'Task 1 description',
+                  //             taskContent: '<html>hi Jagrutee</html>'
+                  //       }, {
+                  //             taskName: 'Task 2',
+                  //             taskDescription: 'Task 2 description',
+                  //             taskContent: ''
+                  //       }]
+                  // }, {
+                  //       key: 'activity-2',
+                  //       activityId: 2,
+                  //       activityName: 'INSTALLATION',
+                  //       activityDescription: 'activity',
+                  //       tasks: [{
+                  //             taskName: 'Task 2',
+                  //             taskDescription: 'Task 2 description',
+                  //             taskContent: ''
+                  //       },
+                  //       {
+                  //             taskName: 'Task 5',
+                  //             taskDescription: 'Task 5 description',
+                  //             taskContent: ''
+                  //       }]
+                  // }, {
+                  //       key: 'activity-3',
+                  //       activityId: 3,
+                  //       activityName: 'SAFETY',
+                  //       activityDescription: 'activity',
+                  //       tasks: [{
+                  //             taskName: 'Task 3',
+                  //             taskDescription: 'Task 3 description',
+                  //             taskContent: ''
+                  //       }]
+                  // }]
             }
       }
 
       componentDidMount = () => {
-            // let activityTaskData = window.UserManualNirvana.getPDFDetails();
-            // let activityTaskArray = [];
-            // Object.keys(activityTaskData).map((activityName, i) => {
-            //       let taskArray = [];
-            //       Object.keys(activityTaskData[activityName]).map((taskName, j) => {
-            //             if (activityTaskData[activityName][taskName][0]['taskData'] && activityTaskData[activityName][taskName][0]['taskData']['taskContent']) {
-            //                   taskArray.push({
-            //                         id: j,
-            //                         taskName,
-            //                         taskDescription: `${taskName} adding to the task list`,
-            //                         taskContent: activityTaskData[activityName][taskName][0]['taskData']['taskContent']
-            //                   });
-            //             }
-            //             return taskName;
-            //       });
-            //       activityTaskArray.push({
-            //             id: i,
-            //             activityName,
-            //             activityDescription: `Added ${activityName} activity`,
-            //             activityComments: '',
-            //             taskList: taskArray,
-            //             addedActivity: false
-            //       });
-            //       return activityName;
-            // });
-            // this.setState({
-            //       activityTaskData: activityTaskArray || []
-            // }, () => {
-            //       // console.log(activityTaskData)
-            // })
+            let activityTaskData = window.UserManualNirvana.getPDFDetails();
+            let activityTaskArray = [];
+            Object.keys(activityTaskData).map((activityName, i) => {
+                  let taskArray = [];
+                  Object.keys(activityTaskData[activityName]).map((taskName, j) => {
+                        if (activityTaskData[activityName][taskName][0]['taskData'] && activityTaskData[activityName][taskName][0]['taskData']['taskContent']) {
+                              taskArray.push({
+                                    id: j,
+                                    taskName,
+                                    taskDescription: `${taskName} adding to the task list`,
+                                    taskContent: activityTaskData[activityName][taskName][0]['taskData']['taskContent']
+                              });
+                        }
+                        return taskName;
+                  });
+                  activityTaskArray.push({
+                        id: i,
+                        activityName,
+                        activityDescription: `Added ${activityName} activity`,
+                        activityComments: '',
+                        taskList: taskArray,
+                        addedActivity: false
+                  });
+                  return activityName;
+            });
+            this.setState({
+                  activityTaskData: activityTaskArray || []
+            }, () => {
+                  // console.log(activityTaskData)
+            })
       }
 
       handleActivityPress = (item) => {
@@ -183,7 +183,7 @@ export default class ActivityListView extends Component {
                               <FlatList
                                     data={this.state.activityTaskData}
                                     renderItem={({ item }) => this.renderItem(item)}
-                                    keyExtractor={item => item.id}
+                                    keyExtractor={item => `${item.id}`}
                               />
                         </SafeAreaView>
                   </View>
