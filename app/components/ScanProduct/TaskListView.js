@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Dimensions, Text, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+const http = require('../../models/fetch');
 const { width, height } = Dimensions.get('window');
 
 export default class TaskListView extends Component {
@@ -18,12 +19,39 @@ export default class TaskListView extends Component {
                               taskDescription: 'Task 3 description',
                               taskContent: ''
                         }]
-                  }
+                  },
+                  taskData: []
             }
       }
 
       UNSAFE_componentWillReceiveProps = (nextProps, nextState) => {
-            console.log('nextProps', nextProps);
+            // console.log('nextProps', nextProps);
+      }
+
+      componentDidMount = () => {
+            // get list of all activities for that modality
+            let selectedModality = window.UserManualNirvana.getSelectedModality();
+            const url = `${window.UserManualNirvana.basePath}/Modality/${selectedModality.id}/Task`;
+            http.get(url, null, (err, res) => {
+                  if (err) {
+                        ToastAndroid.show('Error getting activities by modality', ToastAndroid.SHORT);
+                  }
+                  if (res) {
+                        let tasksByModality = res.docs.filter((task) => !task['isDeleted']);
+                        // console.log(tasksByModality);
+                        let taskData = this.props.navigation.state.params.activityData.taskList.filter((data) => {
+                              let doesTaskExist = false;
+                              tasksByModality.forEach((task) => {
+                                    if (task.name.toLowerCase() === data.taskName.toLowerCase()) {
+                                          doesTaskExist = true;
+                                    };
+                              });
+                              data['addedTask'] = doesTaskExist;
+                              return data;
+                        });
+                        this.setState({ taskData });
+                  }
+            });
       }
 
       handleTaskPress = (item) => {
@@ -50,8 +78,8 @@ export default class TaskListView extends Component {
                   <TouchableOpacity onPress={() => this.handleTaskPress(item)}>
                         <View style={{ flex: 1, flexDirection: 'row', width: width - 8, height: 60, backgroundColor: '#ffffff', alignItems: 'center', paddingLeft: 16, paddingRight: 16, justifyContent: 'space-between', margin: 4, marginBottom: 1, elevation: 1 }}>
                               <View style={{ flexDirection: 'row' }}>
-                                    <Icon name="check-circle" size={20} color="#bfbfbf" />
-                                    <Text style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, marginLeft: 10, color: '#333333' }}>{item.taskName}</Text>
+                                    <Icon name="check-circle" size={20} color={(item.addedTask) ? '#00cc99' : "#bfbfbf"} />
+                                    <Text style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, marginLeft: 10, color: (item.addedTask) ? '#00cc99' : "#333333" }}>{item.taskName}</Text>
                               </View>
                               <Icon name="chevron-right" size={20} color="#bfbfbf" />
                         </View>
@@ -79,7 +107,7 @@ export default class TaskListView extends Component {
                         </View>
                         <SafeAreaView style={{ flex: 1, backgroundColor: '#e6e6e6' }}>
                               <FlatList
-                                    data={this.props.navigation.state.params.activityData.taskList}
+                                    data={this.state.taskData}
                                     renderItem={({ item }) => this.renderItem(item)}
                                     keyExtractor={item => `${item.taskName}_${item.taskId}`}
                               />

@@ -70,7 +70,7 @@ export default class HTMLViewScreen extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'HTML View'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'HTML View'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
@@ -81,11 +81,15 @@ export default class HTMLViewScreen extends Component {
                               source={{ html: this.props.navigation.state.params.taskData.task.taskContent }}
                               style={{ flex: 1, width, height: height - 100, }}
                         />
-                        <TouchableOpacity onPress={() => this.uploadTaskContent()}>
-                              <View style={{ width, height: 50, padding: 8, backgroundColor: '#333333', alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>{'Upload Task Content'}</Text>
-                              </View>
-                        </TouchableOpacity>
+                        {
+                              (!this.props.navigation.state.params.taskData.task.addedTask) &&
+                              <TouchableOpacity onPress={() => this.uploadTaskContent()}>
+                                    <View style={{ flexDirection: 'row', width, height: 50, padding: 8, backgroundColor: '#333333', alignItems: 'center', justifyContent: 'center' }}>
+                                          <Icon name={'file-upload'} size={20} color={'#fff'} />
+                                          <Text style={{ marginLeft: 10, fontFamily: 'SourceSansPro-Regular', color: 'white', fontSize: 18, textAlign: 'center' }}>{'Upload Task Content'}</Text>
+                                    </View>
+                              </TouchableOpacity>
+                        }
                   </View>
             );
       }

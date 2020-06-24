@@ -55,12 +55,12 @@ export default class ActivityListView extends Component {
                         let activityTaskData = activityTaskArray.filter((data) => {
                               let doesActivityExist = false;
                               activitiesByModality.forEach((activity) => {
-                                    if (activity.name === data.activityName) {
+                                    if (activity.name.toLowerCase() === data.activityName.toLowerCase()) {
                                           doesActivityExist = true;
                                     };
                               });
                               data['addedActivity'] = doesActivityExist;
-                              return doesActivityExist;
+                              return data;
                         });
                         this.setState({ activityTaskData });
                   }
@@ -116,7 +116,7 @@ export default class ActivityListView extends Component {
                   <TouchableOpacity onPress={() => this.handleActivityPress(item)}>
                         <View style={{ flex: 1, flexDirection: 'row', width: width - 8, height: 60, backgroundColor: '#ffffff', alignItems: 'center', paddingLeft: 16, paddingRight: 16, justifyContent: 'space-between', margin: 4, marginBottom: 1, elevation: 1 }}>
                               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Icon name="file-alt" size={20} color="#bfbfbf" />
+                                    <Icon name="check-circle" size={20} color={(item.addedActivity) ? '#00cc99' : "#bfbfbf"} />
                                     <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16, marginLeft: 10, color: '#333333' }}>{item.activityName}</Text>
                               </View>
                               {

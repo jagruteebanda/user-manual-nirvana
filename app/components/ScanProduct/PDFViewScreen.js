@@ -89,7 +89,7 @@ export default class PDFViewScreen extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'PDF View Screen'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'PDF View'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     <Icon name="arrow-circle-left" size={20} color="#fff" />
