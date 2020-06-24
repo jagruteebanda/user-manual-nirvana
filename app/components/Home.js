@@ -66,8 +66,8 @@ export default class Home extends Component {
                                     this.state.tabs.map((item, i) =>
                                           <TouchableOpacity key={`homeTab_${i}`} onPress={() => this.handleTabItemPress(item)}>
                                                 <View style={{ alignItems: 'center', justifyContent: 'center', width: width / 2 - 8, height: height / 4, margin: 4, backgroundColor: 'white', elevation: 5 }}>
-                                                      <Image style={{ width:50, height: 50 }} source={item.image} />
-                                                      <Text>{item.tabName}</Text>
+                                                      <Image style={{ width:50, height: 50, margin: 8 }} source={item.image} />
+                                                      <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{item.tabName}</Text>
                                                 </View>
                                           </TouchableOpacity>
                                     )

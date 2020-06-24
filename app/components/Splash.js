@@ -20,7 +20,7 @@ export default class Splash extends Component {
             setTimeout(() => {
                   // this.setState({ showSplash: false });
                   // this.props.navigation.navigate('SSOLogin');
-                  this.props.navigation.navigate('Login');
+                  this.props.navigation.navigate('Home');
                   // this.props.navigation.navigate('UploadTask');
             }, 2000);
       }
