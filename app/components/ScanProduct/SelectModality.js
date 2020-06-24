@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+const http = require('../../models/fetch');
+
 const { width, height } = Dimensions.get('window');
 
 class SelectModality extends Component {
@@ -21,6 +23,8 @@ class SelectModality extends Component {
                   selectedModality: 'Select modality',
                   noModalitySelectedError: null,
                   modalities: [],
+                  selectedProduct: 'Select product',
+                  productsByModality: [],
                   productName: 'CX50 Ultrasound',
                   productError: null,
                   loading: false
@@ -33,31 +37,38 @@ class SelectModality extends Component {
 
       getModalities = () => {
             const userDetails = window.UserManualNirvana.getUserDetails();
-            // console.log(userDetails['accessToken'], userDetails['user']['id']);
-            fetch(`https://az19fgwa01t.azurewebsites.net/User/${userDetails['user']['id']}/Modality`, {
-                  method: "GET",
-                  headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'authorization': userDetails.accessToken
+            const url = `${window.UserManualNirvana.basePath}/User/${userDetails['user']['id']}/Modality`;
+            http.get(url, null, (err, res) => {
+                  if (err) {
+                        ToastAndroid.show('Error getting modalities', ToastAndroid.SHORT);
                   }
-            })
-                  .then(response => response.json())
-                  .then(response => {
-                        // console.log('ithe aala:: ', response);
-                        this.setState({
-                              modalities: response.docs
-                        })
-                  })
-                  .catch(error => {
-                        console.log("upload error", error);
-                  });
+                  if (res) {
+                        this.setState({ modalities: res.docs });
+                  }
+            });
       }
 
       handleModalityChange = (modalityName) => {
             let selectedModality = this.state.modalities.filter((modality) => modality.name === modalityName);
             this.setState({ selectedModality: modalityName, noModalitySelectedError: null });
             window.UserManualNirvana.setSelectedModality(selectedModality[0]);
+
+            // fetch list of products for that modality
+            const url = `${window.UserManualNirvana.basePath}/Modality/${selectedModality[0].id}/Product`;
+            http.get(url, null, (err, res) => {
+                  if (err) {
+                        ToastAndroid.show('Error getting products by modality', ToastAndroid.SHORT);
+                  }
+                  if (res) {
+                        this.setState({ productsByModality: res.docs.filter((product) => !product['isDeleted']) });
+                  }
+            });
+      }
+
+      handleProductChange = (productName) => {
+            let selectedProduct = this.state.productsByModality.filter((product) => product.name === productName);
+            this.setState({ productName, selectedProduct: productName, noProductSelectedError: null });
+            window.UserManualNirvana.setProductDetails(selectedProduct[0].name);
       }
 
       handleStartGeneratingManual = () => {
@@ -69,47 +80,47 @@ class SelectModality extends Component {
                   this.setState({ productError: 'Enter valid product name.' });
                   return;
             }
-            window.UserManualNirvana.setProductDetails({
-                  productName: this.state.productName
-            });
-            this.setState({
-                  loading: true
-            });
-            let selectedModality = window.UserManualNirvana.getSelectedModality();
-            const body = JSON.stringify([
-                  {
-                        "name": this.state.productName,
-                        "description": "Added new product",
-                        "comment": "created new",
-                        "modalityId": selectedModality.id,
-                  }
-            ]);
-            fetch("https://az19fgwa01t.azurewebsites.net/Product", {
-                  method: "POST",
-                  headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'authorization': window.UserManualNirvana.getUserDetails().accessToken
-                  },
-                  body
-            })
-                  .then(response => response.json())
-                  .then(response => {
-                        console.log('ithe aala:: ', response);
-                        this.setState({
-                              loading: false
-                        });
-                        if (response.statusCode === 500) {
-                              ToastAndroid.show("There was error saving thr product!", ToastAndroid.SHORT);
-                        } else {
-                              window.UserManualNirvana.setProductDetails(response[0]);
-                              ToastAndroid.show("Product has been saved successfully!", ToastAndroid.SHORT);
-                              this.props.navigation.navigate('AddProductPart', { productName: this.state.productName });
-                        }
-                  })
-                  .catch(error => {
-                        console.log("upload error", error);
-                  });
+
+            this.props.navigation.navigate('AddProductPart', { productName: this.state.productName });
+            // window.UserManualNirvana.setProductDetails(this.state.selectedProduct);
+            // this.setState({
+            //       loading: true
+            // });
+            // let selectedModality = window.UserManualNirvana.getSelectedModality();
+            // const body = JSON.stringify([
+            //       {
+            //             "name": this.state.productName,
+            //             "description": "Added new product",
+            //             "comment": "created new",
+            //             "modalityId": selectedModality.id,
+            //       }
+            // ]);
+            // fetch("https://az19fgwa01t.azurewebsites.net/Product", {
+            //       method: "POST",
+            //       headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json',
+            //             'authorization': window.UserManualNirvana.getUserDetails().accessToken
+            //       },
+            //       body
+            // })
+            //       .then(response => response.json())
+            //       .then(response => {
+            //             console.log('ithe aala:: ', response);
+            //             this.setState({
+            //                   loading: false
+            //             });
+            //             if (response.statusCode === 500) {
+            //                   ToastAndroid.show("There was error saving thr product!", ToastAndroid.SHORT);
+            //             } else {
+            //                   window.UserManualNirvana.setProductDetails(response[0]);
+            //                   ToastAndroid.show("Product has been saved successfully!", ToastAndroid.SHORT);
+            //                   this.props.navigation.navigate('AddProductPart', { productName: this.state.productName });
+            //             }
+            //       })
+            //       .catch(error => {
+            //             console.log("upload error", error);
+            //       });
       }
 
       render() {
@@ -143,7 +154,6 @@ class SelectModality extends Component {
                                           </View>
                                           <View style={{ height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', borderColor: '#e6e6e6', borderWidth: 1 }}>
                                                 <Picker
-                                                      selectedValue={this.state.language}
                                                       textStyle={{
                                                             fontFamily: 'SourceSansPro-Light'
                                                       }}
@@ -166,7 +176,29 @@ class SelectModality extends Component {
                                                 <Text style={{ fontSize: 16, color: 'red', textAlign: 'left', marginLeft: 16 }}>{this.state.noModalitySelectedError}</Text>
                                           }
                                           <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                                <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{'Product Name:'}</Text>
+                                                <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{'Select Product:'}</Text>
+                                          </View>
+                                          <View style={{ height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', borderColor: '#e6e6e6', borderWidth: 1 }}>
+                                                <Picker
+                                                      textStyle={{
+                                                            fontFamily: 'SourceSansPro-Light'
+                                                      }}
+                                                      itemTextStyle={{
+                                                            fontFamily: 'SourceSansPro-Light'
+                                                      }}
+                                                      style={{ fontFamily: 'SourceSansPro-Light', height: 50, width: width - 32, marginLeft: 16, paddingRight: 16 }}
+                                                      onValueChange={(itemValue, itemIndex) => this.handleProductChange(itemValue)}>
+                                                      <Picker.Item style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16 }} label={this.state.selectedProduct} value={this.state.selectedProduct} />
+                                                      {
+                                                            this.state.productsByModality && this.state.productsByModality.map((item, i) =>
+                                                                  <Picker.Item style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16 }} key={`productItem_${i}`} label={item.name} value={item.name} />
+
+                                                            )
+                                                      }
+                                                </Picker>
+                                          </View>
+                                          {/* <View style={{ alignItems: 'center', marginTop: 4, marginBottom: 4 }}>
+                                                <Text style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, marginTop: 4, marginBottom: 4 }}>or</Text>
                                           </View>
                                           <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                                 <TextInput
@@ -175,7 +207,7 @@ class SelectModality extends Component {
                                                       value={this.state.productName}
                                                       placeholder={'Enter product name here'}
                                                 />
-                                          </View>
+                                          </View> */}
                                           {
                                                 this.state.productError &&
                                                 <Text style={{ fontSize: 16, color: 'red', textAlign: 'left', marginLeft: 16 }}>{this.state.productError}</Text>

@@ -43,7 +43,7 @@ export default class AddProductPart extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Add Product Part'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 18 }}>{'Add Product Part'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     <Icon name="arrow-circle-left" size={20} color="#fff" />
@@ -51,11 +51,11 @@ export default class AddProductPart extends Component {
                         </View>
                         <View style={{ width, height: height - 50 }}>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 18 }}>{'Product Name:'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{'Product Name:'}</Text>
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
-                                          style={{ backgroundColor: '#e6e6e6', width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                          style={{ fontFamily: 'SourceSansPro-Light', color: '#333333', backgroundColor: '#e6e6e6', width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ productName: text })}
                                           value={this.state.productName}
                                           placeholder={'Product Name'}
@@ -63,7 +63,7 @@ export default class AddProductPart extends Component {
                                     />
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 18 }}>{'Product Parts:'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{'Product Parts:'}</Text>
                               </View>
                               {
                                     this.state.productParts && this.state.productParts.length > 0 && this.state.productParts.map((item, i) =>
@@ -79,7 +79,7 @@ export default class AddProductPart extends Component {
                               <TouchableOpacity onPress={() => this.handleAddProductPart()}>
                                     <View style={{ flexDirection: 'row', width: width - 32, height: 50, marginLeft: 16, marginRight: 16, marginTop: 16, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
                                           <Icon name={'plus-circle'} size={16} color={'#ffffff'} />
-                                          <Text style={{ marginLeft: 10, color: '#ffffff' }}>{'Add product part'}</Text>
+                                          <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16, marginLeft: 10, color: '#ffffff' }}>{'Add product part'}</Text>
                                     </View>
                               </TouchableOpacity>
                         </View>

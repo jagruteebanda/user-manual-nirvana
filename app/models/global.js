@@ -1,5 +1,7 @@
 window.UserManualNirvana = {};
 
+window.UserManualNirvana.basePath = 'https://az19fgwa01t.azurewebsites.net';
+
 window.UserManualNirvana.setUserDetails = (user) => {
       window.UserManualNirvana['userDetails'] = user;
 }
