@@ -6,7 +6,8 @@ import {
       TextInput,
       TouchableOpacity,
       Image,
-      ActivityIndicator
+      ActivityIndicator,
+      AsyncStorage
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -54,6 +55,7 @@ export default class Login extends Component {
                         .then(response => response.json())
                         .then(response => {
                               // console.log(response);
+                              AsyncStorage.setItem('userDetails', JSON.stringify(response));
                               window.UserManualNirvana.setUserDetails(response);
                               this.setState({
                                     loading: false

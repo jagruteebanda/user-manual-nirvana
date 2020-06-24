@@ -123,7 +123,7 @@ class SelectModality extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Select Modality'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'Select Modality'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     <Icon name="arrow-circle-left" size={20} color="#fff" />
@@ -139,17 +139,23 @@ class SelectModality extends Component {
                                     :
                                     <View style={{ flexDirection: 'column', width, height: height - 50 }}>
                                           <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                                <Text style={{ fontSize: 18 }}>{'Select Modality:'}</Text>
+                                                <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{'Select Modality:'}</Text>
                                           </View>
                                           <View style={{ height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', borderColor: '#e6e6e6', borderWidth: 1 }}>
                                                 <Picker
                                                       selectedValue={this.state.language}
-                                                      style={{ height: 50, width: width - 32, marginLeft: 16, paddingRight: 16 }}
+                                                      textStyle={{
+                                                            fontFamily: 'SourceSansPro-Light'
+                                                      }}
+                                                      itemTextStyle={{
+                                                            fontFamily: 'SourceSansPro-Light'
+                                                      }}
+                                                      style={{ fontFamily: 'SourceSansPro-Light', height: 50, width: width - 32, marginLeft: 16, paddingRight: 16 }}
                                                       onValueChange={(itemValue, itemIndex) => this.handleModalityChange(itemValue)}>
-                                                      <Picker.Item label={this.state.selectedModality} value={this.state.selectedModality} />
+                                                      <Picker.Item style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16 }} label={this.state.selectedModality} value={this.state.selectedModality} />
                                                       {
                                                             this.state.modalities && this.state.modalities.map((item, i) =>
-                                                                  <Picker.Item key={`modalityItem_${i}`} label={item.name} value={item.name} />
+                                                                  <Picker.Item style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16 }} key={`modalityItem_${i}`} label={item.name} value={item.name} />
 
                                                             )
                                                       }
@@ -160,11 +166,11 @@ class SelectModality extends Component {
                                                 <Text style={{ fontSize: 16, color: 'red', textAlign: 'left', marginLeft: 16 }}>{this.state.noModalitySelectedError}</Text>
                                           }
                                           <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                                <Text style={{ fontSize: 18 }}>{'Product Name:'}</Text>
+                                                <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16 }}>{'Product Name:'}</Text>
                                           </View>
                                           <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                                 <TextInput
-                                                      style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                                      style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                                       onChangeText={(text) => this.setState({ productName: text })}
                                                       value={this.state.productName}
                                                       placeholder={'Enter product name here'}
@@ -176,8 +182,8 @@ class SelectModality extends Component {
                                           }
                                           <TouchableOpacity onPress={() => this.handleStartGeneratingManual()}>
                                                 <View style={{ flexDirection: 'row', width: width - 32, height: 50, marginLeft: 16, marginRight: 16, marginTop: 16, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
-                                                      <Icon name={'file-pdf'} size={16} color={'#ff0000'} />
-                                                      <Text style={{ marginLeft: 10, color: '#ffffff' }}>{'Start Generating Manual'}</Text>
+                                                      <Icon name={'file-pdf'} size={16} color={'#fff'} />
+                                                      <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16, marginLeft: 10, color: '#ffffff' }}>{'Start Generating Manual'}</Text>
                                                 </View>
                                           </TouchableOpacity>
                                     </View>
