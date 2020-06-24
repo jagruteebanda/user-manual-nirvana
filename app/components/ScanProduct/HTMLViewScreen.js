@@ -42,7 +42,7 @@ export default class HTMLViewScreen extends Component {
                               ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
                         } else {
                               // window.UserManualNirvana.setProductDetails(response[0]);
-                              ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
+                              ToastAndroid.show("Task has been uploaded successfully!", ToastAndroid.SHORT);
                               this.props.navigation.navigate('UploadTask', {
                                     taskData: {
                                           ...this.props.navigation.state.params.taskData.task,

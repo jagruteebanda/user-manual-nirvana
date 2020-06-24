@@ -33,10 +33,10 @@ export default class Splash extends Component {
                               <View style={{ flex: 1, width, height, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center' }}>
                                     <Image
                                     style={{ width: 150, height: 150 }}
-                                    source={require('../images/um-logo.png')}
+                                    source={require('../images/app-logo.png')}
                                      />
-                                    <Text style={{ fontSize: 20, color: '#ffffff', marginTop: 10 }}>{'USER MANUAL NIRVANA'}</Text>
-                                    <Text style={{ fontSize: 16, color: '#ffffff' }}>{'Powered by TensorFlow'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', fontSize: 20, color: '#ffffff', marginTop: 10 }}>{'USER MANUAL NIRVANA'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, color: '#ffffff' }}>{'Powered by TensorFlow'}</Text>
                               </View>
                         // }
                   // </View>

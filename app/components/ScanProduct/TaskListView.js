@@ -22,6 +22,10 @@ export default class TaskListView extends Component {
             }
       }
 
+      UNSAFE_componentWillReceiveProps = (nextProps, nextState) => {
+            console.log('nextProps', nextProps);
+      }
+
       handleTaskPress = (item) => {
             // console.log(item.taskContent, '+++++++++++++++++++++++++++++');
             const { activityData } = this.state;

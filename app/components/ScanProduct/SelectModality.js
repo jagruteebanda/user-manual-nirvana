@@ -95,7 +95,7 @@ class SelectModality extends Component {
             })
                   .then(response => response.json())
                   .then(response => {
-                        // console.log('ithe aala:: ', response);
+                        console.log('ithe aala:: ', response);
                         this.setState({
                               loading: false
                         });

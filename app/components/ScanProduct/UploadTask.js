@@ -9,10 +9,10 @@ export default class UploadTask extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  taskName: this.props.navigation.state.params.taskData.taskName || '',
+                  taskName: '',
                   accessLevelId: 1,
                   revesionNumber: '123456',
-                  taskDescription: this.props.navigation.state.params.taskData.taskDescription || ''
+                  taskDescription: ''
             }
             // console.log(Object.keys(this.props.navigation.state.params.taskData));
       }
@@ -54,7 +54,7 @@ export default class UploadTask extends Component {
             })
                   .then(response => response.json())
                   .then(response => {
-                        console.log('ithe aala:: ', response);
+                        console.log('upload task:: ', response);
                         this.setState({
                               loading: false
                         });
@@ -77,7 +77,7 @@ export default class UploadTask extends Component {
       }
 
       render() {
-            const { taskData } = this.props.navigation.state.params;
+            const taskData = this.props.navigation.state.params.taskData;
             return (
                   <View style={{ flex: 1, width, height }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
@@ -103,7 +103,7 @@ export default class UploadTask extends Component {
                                     <TextInput
                                           style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ taskName: text })}
-                                          value={this.state.taskName}
+                                          value={taskData.taskName}
                                           placeholder={'Enter task name here'}
                                     />
                               </View>
@@ -143,7 +143,7 @@ export default class UploadTask extends Component {
                                     <TextInput
                                           style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ taskDescription: text })}
-                                          value={this.state.taskDescription}
+                                          value={taskData.taskDescription}
                                           placeholder={'Enter task description here'}
                                     />
                               </View>

@@ -16,7 +16,7 @@ export default class Login extends Component {
             super(props);
             this.state = {
                   email: 'jagruteebanda99@gmail.com',
-                  password: 'kerctOASavVQI',
+                  password: '3RQwfl1tulAKP',
                   emailError: null,
                   passwordError: null,
                   loading: false
@@ -82,21 +82,21 @@ export default class Login extends Component {
                                     :
                                     <View style={{ alignItems: 'center' }}>
                                           <View style={{ width: width - 32, marginLeft: 16, marginRight: 16, marginBottom: 16, justifyContent: 'center', alignItems: 'center' }}>
-                                                <Text style={{ fontSize: 24, color: '#ffffff', textAlign: 'center' }}>{'User Manual Nirvana'}</Text>
+                                                <Text style={{ fontFamily: 'SourceSansPro-SemiBold', fontSize: 24, color: '#ffffff', textAlign: 'center' }}>{'User Manual Nirvana'}</Text>
                                                 <Image
                                                       style={{ width: 75, height: 75, marginTop: 16, marginBottom: 16 }}
-                                                      source={require('../images/um-logo.png')}
+                                                      source={require('../images/app-logo.png')}
                                                 />
                                           </View>
                                           <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center' }}>
-                                                <Text style={{ fontSize: 18, color: '#ffffff' }}>{'Email'}</Text>
+                                                <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18, color: '#ffffff' }}>{'Email'}</Text>
                                           </View>
                                           <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, borderColor: '#e6e6e6', borderWidth: 1 }}>
                                                 <TextInput
                                                       onChangeText={(text) => this.setState({ email: text })}
                                                       value={this.state.email}
                                                       placeholder={'Enter your email here'}
-                                                      style={{ paddingLeft: 16, paddingRight: 16, color: '#ffffff' }}
+                                                      style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, paddingLeft: 16, paddingRight: 16, color: '#ffffff' }}
                                                 />
                                                 {
                                                       this.state.emailError &&
@@ -104,14 +104,15 @@ export default class Login extends Component {
                                                 }
                                           </View>
                                           <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center' }}>
-                                                <Text style={{ fontSize: 18, color: '#ffffff' }}>{'Password'}</Text>
+                                                <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18, color: '#ffffff' }}>{'Password'}</Text>
                                           </View>
                                           <View style={{ width: width - 32, height: 50, marginLeft: 16, marginRight: 16, borderColor: '#e6e6e6', borderWidth: 1 }}>
                                                 <TextInput
                                                       onChangeText={(text) => this.setState({ password: text })}
                                                       value={this.state.password}
                                                       placeholder={'Enter your password here'}
-                                                      style={{ paddingLeft: 16, paddingRight: 16, color: '#ffffff' }}
+                                                      secureTextEntry={true}
+                                                      style={{ fontFamily: 'SourceSansPro-Light', paddingLeft: 16, paddingRight: 16, color: '#ffffff' }}
                                                 />
                                                 {
                                                       this.state.passwordError &&
@@ -120,7 +121,7 @@ export default class Login extends Component {
                                           </View>
                                           <TouchableOpacity onPress={() => this.handleLogin()}>
                                                 <View style={{ width: width - 32, height: 50, backgroundColor: '#333333', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                                                      <Text style={{ color: '#ffffff' }}>{'Login'}</Text>
+                                                      <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18, color: '#ffffff' }}>{'Login'}</Text>
                                                 </View>
                                           </TouchableOpacity>
                                     </View>
