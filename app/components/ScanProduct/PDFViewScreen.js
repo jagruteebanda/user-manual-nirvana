@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { pdfData } from '../../pdfFiles/pdfData';
 
+const http = require('../../models/fetch');
 const { width, height } = Dimensions.get('window');
 
 export default class PDFViewScreen extends Component {
@@ -46,36 +47,43 @@ export default class PDFViewScreen extends Component {
       // }
 
       handleExtractActivityTaskList = () => {
-            const body = JSON.stringify(
-                  [{
-                        "pdfFileName": pdfData[this.state.currentProductPart]["fileName"]
-                  }]
-            );
-            fetch("http://localhost:3000/apis/pdftohtml/convert", {
-                  method: "POST",
-                  headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                  },
-                  body
-            })
-                  .then(response => response.json())
-                  .then(response => {
-                        console.log('ithe aala:: ', response.results);
-                        if (response.code === 200) {
-                              window.UserManualNirvana.setPDFDetails(response.results);
-                              this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
-                        } else if (response.code === 403) {
-                              ToastAndroid.show('Error while extracting activity and task list from PDF', ToastAndroid.SHORT);
-                        } else if (response.code === 403) {
-                              ToastAndroid.show('Internal server error occurred', ToastAndroid.SHORT);
-                        } else {
-                              ToastAndroid.show('No response', ToastAndroid.SHORT);
-                        }
-                  })
-                  .catch(error => {
-                        console.log("upload error", error);
-                  });
+            const payload = [{
+                  "pdfFileName": pdfData[this.state.currentProductPart]["fileName"]
+            }];
+            http.post("http://localhost:3000/apis/pdftohtml/convert", null, payload, (err, res) => {
+                  if (err) {
+                        ToastAndroid.show('Error while extracting activity and task list from PDF', ToastAndroid.SHORT);
+                  }
+                  if (res) {
+                        window.UserManualNirvana.setPDFDetails(res.results);
+                        this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
+                  }
+            });
+            // fetch("http://localhost:3000/apis/pdftohtml/convert", {
+            //       method: "POST",
+            //       headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json'
+            //       },
+            //       body
+            // })
+            //       .then(response => response.json())
+            //       .then(response => {
+            //             console.log('ithe aala:: ', response.results);
+            //             if (response.code === 200) {
+            //                   window.UserManualNirvana.setPDFDetails(response.results);
+            //                   this.props.navigation.navigate('ActivityListView', { productParts: [{ productPartName: this.state.currentProductPart }] })
+            //             } else if (response.code === 403) {
+            //                   ToastAndroid.show('Error while extracting activity and task list from PDF', ToastAndroid.SHORT);
+            //             } else if (response.code === 403) {
+            //                   ToastAndroid.show('Internal server error occurred', ToastAndroid.SHORT);
+            //             } else {
+            //                   ToastAndroid.show('No response', ToastAndroid.SHORT);
+            //             }
+            //       })
+            //       .catch(error => {
+            //             console.log("upload error", error);
+            //       });
       }
 
       render() {

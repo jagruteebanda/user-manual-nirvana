@@ -25,7 +25,7 @@ export default class TaskListView extends Component {
       }
 
       UNSAFE_componentWillReceiveProps = (nextProps, nextState) => {
-            // console.log('nextProps', nextProps);
+            console.log('nextProps', nextProps.navigation.state.params);
       }
 
       componentDidMount = () => {

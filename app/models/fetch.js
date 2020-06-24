@@ -70,6 +70,7 @@ function post(url, headers, payload, cb) {
                         // Internal server error occurred
                         cb(error, null);
                   } else if (response.statusCode === 200) {
+                        console.log('yahape aaya')
                         cb(null, response);
                   } else {
                         cb(null, response);

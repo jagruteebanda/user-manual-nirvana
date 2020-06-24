@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Dimensions, TouchableOpacity, Text, TextInput, Picker, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+const http = require('../../models/fetch');
 const { width, height } = Dimensions.get('window');
 
 export default class UploadTask extends Component {
@@ -14,23 +15,13 @@ export default class UploadTask extends Component {
                   revesionNumber: '123456',
                   taskDescription: ''
             }
-            // console.log(Object.keys(this.props.navigation.state.params.taskData));
       }
 
       saveTaskContent = () => {
             let taskData = this.props.navigation.state.params.taskData;
-            // console.log(Object.keys(taskData));
             let selectedModality = window.UserManualNirvana.getSelectedModality();
-            // let productDetails = window.UserManualNirvana.getProductDetails();
-            // let activityDetails = window.UserManualNirvana.getActivityDetails();
-            const body = JSON.stringify([
+            const payload = [
                   {
-                        // "taskName": this.state.taskName,
-                        // "taskDescription": "Added new product",
-                        // "modalityId": selectedModality.id,
-                        // "productId": productDetails.id,
-                        // "activityId": activityDetails.id,
-                        // "accessToken": window.UserManualNirvana.getUserDetails().accessToken
                         name: this.state.taskName,
                         taskNumber: `${selectedModality.abbr}_*`,
                         accessLevelId: 1,
@@ -42,38 +33,47 @@ export default class UploadTask extends Component {
                         _revesion: 0,
                         modalityId: selectedModality.id
                   }
-            ]);
-            fetch('https://az19fgwa01t.azurewebsites.net/Task', {
-                  method: "POST",
-                  headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': window.UserManualNirvana.getUserDetails().accessToken
-                  },
-                  body
-            })
-                  .then(response => response.json())
-                  .then(response => {
-                        console.log('upload task:: ', response);
-                        this.setState({
-                              loading: false
-                        });
-                        if (response.statusCode === 500) {
-                              ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
-                        } else {
-                              // window.UserManualNirvana.setProductDetails(response[0]);
-                              ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
-                              this.props.navigation.navigate('TaskListView', { taskAdded: taskData });
-                              // this.props.navigation.goBack(); // check this
-                        }
-                  })
-                  .catch(error => {
-                        console.log("upload error", error);
-                  });
+            ];
+            http.post('https://az19fgwa01t.azurewebsites.net/Task', null, payload, (err, res) => {
+                  if (err) {
+                        ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
+                  }
+                  if (res) {
+                        ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
+                        this.props.navigation.navigate('TaskListView', { taskAdded: taskData });
+                  }
+            });
+            // fetch('https://az19fgwa01t.azurewebsites.net/Task', {
+            //       method: "POST",
+            //       headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json',
+            //             'Authorization': window.UserManualNirvana.getUserDetails().accessToken
+            //       },
+            //       body
+            // })
+            //       .then(response => response.json())
+            //       .then(response => {
+            //             console.log('upload task:: ', response);
+            //             this.setState({
+            //                   loading: false
+            //             });
+            //             if (response.statusCode === 500) {
+            //                   ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
+            //             } else {
+            //                   // window.UserManualNirvana.setProductDetails(response[0]);
+            //                   ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
+            //                   this.props.navigation.navigate('TaskListView', { taskAdded: taskData });
+            //                   // this.props.navigation.goBack(); // check this
+            //             }
+            //       })
+            //       .catch(error => {
+            //             console.log("upload error", error);
+            //       });
       }
 
       cancelUploadTask = () => {
-            this.props.navigation.navigate('HTMLViewScreen');
+            this.props.navigation.navigate('TaskListView');
       }
 
       render() {
@@ -88,7 +88,7 @@ export default class UploadTask extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Upload Task'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'Upload Task'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
@@ -97,23 +97,23 @@ export default class UploadTask extends Component {
                         </View>
                         <View style={{ flex: 1, width, height: height - 84 }}>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 18 }}>{'Task Name:'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18 }}>{'Task Name:'}</Text>
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
-                                          style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                          style={{ fontFamily: 'SourceSansPro-Light', borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ taskName: text })}
                                           value={taskData.taskName}
                                           placeholder={'Enter task name here'}
                                     />
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 18 }}>{'Access Level:'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18 }}>{'Access Level:'}</Text>
                               </View>
                               <View style={{ height: 50, marginLeft: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', borderColor: '#e6e6e6', borderWidth: 1 }}>
                                     <Picker
                                           selectedValue={this.state.accessLevelId}
-                                          style={{ height: 50, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                          style={{ fontFamily: 'SourceSansPro-Light', height: 50, width: width - 32, paddingLeft: 16, paddingRight: 16, fontSize: 16 }}
                                           onValueChange={(itemValue, itemIndex) => this.handleAccessLevelChange(itemValue)}
                                     >
                                           {/* <Picker.Item label={this.state.accessLevelId} value={this.state.accessLevelId} /> */}
@@ -126,22 +126,22 @@ export default class UploadTask extends Component {
                                     </Picker>
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 18 }}>{'Revision number:'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18 }}>{'Revision number:'}</Text>
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
-                                          style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                          style={{ fontFamily: 'SourceSansPro-Light', borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ revesionNumber: text })}
                                           value={this.state.revesionNumber}
                                           placeholder={'Enter revesion number here'}
                                     />
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 18 }}>{'Task Description:'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 18 }}>{'Task Description:'}</Text>
                               </View>
                               <View style={{ height: 50, paddingLeft: 16, paddingRight: 16, justifyContent: 'center', alignItems: 'center' }}>
                                     <TextInput
-                                          style={{ borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
+                                          style={{ fontFamily: 'SourceSansPro-Light', borderColor: '#e6e6e6', borderWidth: 1, width: width - 32, paddingLeft: 16, paddingRight: 16 }}
                                           onChangeText={(text) => this.setState({ taskDescription: text })}
                                           value={taskData.taskDescription}
                                           placeholder={'Enter task description here'}
@@ -150,13 +150,15 @@ export default class UploadTask extends Component {
                         </View>
                         <View style={{ flexDirection: "row", width, height: 66, padding: 8, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center' }}>
                               <TouchableOpacity onPress={() => this.saveTaskContent()}>
-                                    <View style={{ width: width / 2 - 24, height: 50, padding: 8, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center', marginLeft: 16, marginRight: 8 }}>
-                                          <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>{'Save'}</Text>
+                                    <View style={{ flexDirection: 'row', width: width / 2 - 24, height: 50, padding: 8, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center', marginLeft: 16, marginRight: 8 }}>
+                                          <Icon name="file-download" size={20} color="#fff" />
+                                          <Text style={{ marginLeft: 8, fontFamily: 'SourceSansPro-Regular', color: 'white', fontSize: 18, textAlign: 'center' }}>{'Save'}</Text>
                                     </View>
                               </TouchableOpacity>
                               <TouchableOpacity onPress={() => this.cancelUploadTask()}>
-                                    <View style={{ width: width / 2 - 24, height: 50, padding: 8, backgroundColor: '#00cc99', alignItems: 'center', justifyContent: 'center', marginLeft: 8, marginRight: 16 }}>
-                                          <Text style={{ color: 'white', fontSize: 18, textAlign: 'center' }}>{'Cancel'}</Text>
+                                    <View style={{ flexDirection: 'row', width: width / 2 - 24, height: 50, padding: 8, backgroundColor: '#333333', alignItems: 'center', justifyContent: 'center', marginLeft: 8, marginRight: 16 }}>
+                                          <Icon name="times-circle" size={20} color="#fff" />
+                                          <Text style={{ marginLeft: 8, fontFamily: 'SourceSansPro-Regular', color: 'white', fontSize: 18, textAlign: 'center' }}>{'Cancel'}</Text>
                                     </View>
                               </TouchableOpacity>
                         </View>

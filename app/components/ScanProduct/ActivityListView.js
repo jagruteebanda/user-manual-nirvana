@@ -117,14 +117,9 @@ export default class ActivityListView extends Component {
                         <View style={{ flex: 1, flexDirection: 'row', width: width - 8, height: 60, backgroundColor: '#ffffff', alignItems: 'center', paddingLeft: 16, paddingRight: 16, justifyContent: 'space-between', margin: 4, marginBottom: 1, elevation: 1 }}>
                               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Icon name="check-circle" size={20} color={(item.addedActivity) ? '#00cc99' : "#bfbfbf"} />
-                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16, marginLeft: 10, color: '#333333' }}>{item.activityName}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-Regular', fontSize: 16, marginLeft: 10, color: (item.addedActivity) ? '#00cc99' : '#333333' }}>{item.activityName}</Text>
                               </View>
-                              {
-                                    (item.addedActivity) ?
-                                          <Icon name="chevron-right" size={20} color="#bfbfbf" />
-                                          :
-                                          <Icon name="arrow-alt-circle-down" size={20} color="#bfbfbf" />
-                              }
+                              <Icon name={(item.addedActivity) ? "chevron-right" : "arrow-alt-circle-down"} size={20} color="#bfbfbf" />
                         </View>
                   </TouchableOpacity>
             );

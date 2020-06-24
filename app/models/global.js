@@ -42,3 +42,11 @@ window.UserManualNirvana.getPDFDetails = () => {
       return window.UserManualNirvana['pdfDetails'];
 }
 
+window.UserManualNirvana.setTaskContentUploadDetails = (taskContentDetails) => {
+      window.UserManualNirvana['taskContentDetails'] = taskContentDetails;
+}
+
+window.UserManualNirvana.getTaskContentUploadDetails = (taskContentDetails) => {
+      return window.UserManualNirvana['taskContentDetails'];
+}
+
