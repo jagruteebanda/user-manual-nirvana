@@ -50,10 +50,10 @@ export default class TaskListView extends Component {
                   <TouchableOpacity onPress={() => this.handleTaskPress(item)}>
                         <View style={{ flex: 1, flexDirection: 'row', width: width - 8, height: 60, backgroundColor: '#ffffff', alignItems: 'center', paddingLeft: 16, paddingRight: 16, justifyContent: 'space-between', margin: 4, marginBottom: 1, elevation: 1 }}>
                               <View style={{ flexDirection: 'row' }}>
-                                    <Icon name="file-alt" size={20} color="#bfbfbf" />
-                                    <Text style={{ marginLeft: 10, color: '#333333' }}>{item.taskName}</Text>
+                                    <Icon name="check-circle" size={20} color="#bfbfbf" />
+                                    <Text style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, marginLeft: 10, color: '#333333' }}>{item.taskName}</Text>
                               </View>
-                              <Icon name="arrow-alt-circle-right" size={20} color="#bfbfbf" />
+                              <Icon name="chevron-right" size={20} color="#bfbfbf" />
                         </View>
                   </TouchableOpacity>
             );
@@ -70,7 +70,7 @@ export default class TaskListView extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Task List'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'Task List'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     {/* <Text style={{ color: 'white', fontSize: 18 }}>{'<'}</Text> */}
@@ -81,7 +81,7 @@ export default class TaskListView extends Component {
                               <FlatList
                                     data={this.props.navigation.state.params.activityData.taskList}
                                     renderItem={({ item }) => this.renderItem(item)}
-                                    keyExtractor={item => item.taskId}
+                                    keyExtractor={item => `${item.taskName}_${item.taskId}`}
                               />
                         </SafeAreaView>
                   </View>

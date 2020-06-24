@@ -89,7 +89,7 @@ export default class PDFViewScreen extends Component {
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'PDF View Screen'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 20 }}>{'PDF View Screen'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
                                     <Icon name="arrow-circle-left" size={20} color="#fff" />
@@ -118,7 +118,7 @@ export default class PDFViewScreen extends Component {
                               <TouchableOpacity onPress={() => this.handleExtractActivityTaskList()}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: width, height: 50, backgroundColor: '#333333' }}>
                                           <Icon name="clipboard-list" size={20} color="#fff" />
-                                          <Text style={{ marginLeft: 8, fontSize: 18, color: '#ffffff', textAlign: 'center' }}>{'Extract Activity and Task List'}</Text>
+                                          <Text style={{ fontFamily: 'SourceSansPro-Regular', marginLeft: 8, fontSize: 18, color: '#ffffff', textAlign: 'center' }}>{'Extract Activity and Task List'}</Text>
                                     </View>
                               </TouchableOpacity>
                         }

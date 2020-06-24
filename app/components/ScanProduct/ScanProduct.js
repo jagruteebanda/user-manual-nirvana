@@ -127,57 +127,57 @@ export default class ScanProduct extends Component {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width, height: 50, backgroundColor: '#00cc99' }}>
                               <TouchableOpacity onPress={() => this.props.navigation.navigate('AddProductPart')}>
                                     <View style={{ padding: 8 }}>
-                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
+                                          <Icon name="arrow-circle-left" size={20} color="#fff" />
                                     </View>
                               </TouchableOpacity>
                               <View style={{}}>
-                                    <Text style={{ color: 'white', fontSize: 18 }}>{'Scan Product'}</Text>
+                                    <Text style={{ fontFamily: 'SourceSansPro-SemiBold', color: 'white', fontSize: 18 }}>{'Scan Product'}</Text>
                               </View>
                               <View style={{ opacity: 0, padding: 8 }}>
-                              <Icon name="arrow-circle-left" size={20} color="#fff" />
+                                    <Icon name="arrow-circle-left" size={20} color="#fff" />
                               </View>
                         </View>
                         {
                               this.state.showCamera ?
-                              <View style={{ flex: 1 }}>
-                                    <View style={styles.container}>
-                                          <RNCamera
-                                                ref={ref => {
-                                                      this.camera = ref;
-                                                }}
-                                                style={styles.preview}
-                                                type={RNCamera.Constants.Type.back}
-                                                flashMode={RNCamera.Constants.FlashMode.off}
-                                                androidCameraPermissionOptions={{
-                                                      title: 'Permission to use camera',
-                                                      message: 'We need your permission to use your camera',
-                                                      buttonPositive: 'Ok',
-                                                      buttonNegative: 'Cancel',
-                                                }}
-                                                androidRecordAudioPermissionOptions={{
-                                                      title: 'Permission to use audio recording',
-                                                      message: 'We need your permission to use your audio',
-                                                      buttonPositive: 'Ok',
-                                                      buttonNegative: 'Cancel',
-                                                }}
+                                    <View style={{ flex: 1 }}>
+                                          <View style={styles.container}>
+                                                <RNCamera
+                                                      ref={ref => {
+                                                            this.camera = ref;
+                                                      }}
+                                                      style={styles.preview}
+                                                      type={RNCamera.Constants.Type.back}
+                                                      flashMode={RNCamera.Constants.FlashMode.off}
+                                                      androidCameraPermissionOptions={{
+                                                            title: 'Permission to use camera',
+                                                            message: 'We need your permission to use your camera',
+                                                            buttonPositive: 'Ok',
+                                                            buttonNegative: 'Cancel',
+                                                      }}
+                                                      androidRecordAudioPermissionOptions={{
+                                                            title: 'Permission to use audio recording',
+                                                            message: 'We need your permission to use your audio',
+                                                            buttonPositive: 'Ok',
+                                                            buttonNegative: 'Cancel',
+                                                      }}
                                                 // onGoogleVisionBarcodesDetected={({ barcodes }) => {
                                                 //       console.log(barcodes);
                                                 // }}
-                                          />
-                                    </View>
-                                    <TouchableWithoutFeedback onPress={() => this.handleCameraClick()}>
-                                          <View style={{ position: 'absolute', left: width / 2 - 35, bottom: 25, elevation: 100 }}>
-                                                <Image
-                                                      style={{ width: 70, height: 70 }}
-                                                      source={require('../../images/camera.png')}
                                                 />
                                           </View>
-                                    </TouchableWithoutFeedback>
-                              </View>
-                              :
-                              <View style={{ flex: 1, width, height: height - 50, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center', elevation: 10 }}>
-                                    <ActivityIndicator animating={!this.state.showCamera} size="large" color="#00cc99" />
-                              </View>
+                                          <TouchableWithoutFeedback onPress={() => this.handleCameraClick()}>
+                                                <View style={{ position: 'absolute', left: width / 2 - 35, bottom: 25, elevation: 100 }}>
+                                                      <Image
+                                                            style={{ width: 70, height: 70 }}
+                                                            source={require('../../images/camera.png')}
+                                                      />
+                                                </View>
+                                          </TouchableWithoutFeedback>
+                                    </View>
+                                    :
+                                    <View style={{ flex: 1, width, height: height - 50, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center', elevation: 10 }}>
+                                          <ActivityIndicator animating={!this.state.showCamera} size="large" color="#00cc99" />
+                                    </View>
                         }
 
                   </View>
