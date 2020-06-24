@@ -17,6 +17,7 @@ export default class UploadTask extends Component {
             }
       }
 
+
       saveTaskContent = () => {
             let taskData = this.props.navigation.state.params.taskData;
             let selectedModality = window.UserManualNirvana.getSelectedModality();
@@ -34,42 +35,16 @@ export default class UploadTask extends Component {
                         modalityId: selectedModality.id
                   }
             ];
-            http.post('https://az19fgwa01t.azurewebsites.net/Task', null, payload, (err, res) => {
-                  if (err) {
-                        ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
-                  }
-                  if (res) {
+            // http.post('https://az19fgwa01t.azurewebsites.net/Task', null, payload, (err, res) => {
+            //       if (err) {
+            //             ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
+            //       }
+            //       if (res) {
+                        
                         ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
                         this.props.navigation.navigate('TaskListView', { taskAdded: taskData });
-                  }
-            });
-            // fetch('https://az19fgwa01t.azurewebsites.net/Task', {
-            //       method: "POST",
-            //       headers: {
-            //             'Accept': 'application/json',
-            //             'Content-Type': 'application/json',
-            //             'Authorization': window.UserManualNirvana.getUserDetails().accessToken
-            //       },
-            //       body
-            // })
-            //       .then(response => response.json())
-            //       .then(response => {
-            //             console.log('upload task:: ', response);
-            //             this.setState({
-            //                   loading: false
-            //             });
-            //             if (response.statusCode === 500) {
-            //                   ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
-            //             } else {
-            //                   // window.UserManualNirvana.setProductDetails(response[0]);
-            //                   ToastAndroid.show("Task has been saved successfully!", ToastAndroid.SHORT);
-            //                   this.props.navigation.navigate('TaskListView', { taskAdded: taskData });
-            //                   // this.props.navigation.goBack(); // check this
-            //             }
-            //       })
-            //       .catch(error => {
-            //             console.log("upload error", error);
-            //       });
+            //       }
+            // });
       }
 
       cancelUploadTask = () => {

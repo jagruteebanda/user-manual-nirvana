@@ -9,23 +9,21 @@ export default class TaskListView extends Component {
       constructor(props) {
             super(props);
             this.state = {
-                  activityData: this.props.navigation.state.params ? this.props.navigation.state.params.activityData : {
-                        key: 'activity-3',
-                        activityId: 3,
-                        activityName: 'Safety',
-                        activityDescription: 'activity',
-                        tasks: [{
-                              taskName: 'Task 3',
-                              taskDescription: 'Task 3 description',
-                              taskContent: ''
-                        }]
-                  },
                   taskData: []
             }
       }
 
       UNSAFE_componentWillReceiveProps = (nextProps, nextState) => {
-            console.log('nextProps', nextProps.navigation.state.params);
+            let newTaskAdded = nextProps.navigation.state.params.taskAdded;
+            if (newTaskAdded) {
+                  let taskData = this.props.navigation.state.params.activityData.taskList.filter((data) => {
+                        if (data.taskName === newTaskAdded.taskName) {
+                              data['addedTask'] = true;
+                        }
+                        return data;
+                  });
+                  this.setState({ taskData });
+            }
       }
 
       componentDidMount = () => {
@@ -56,7 +54,7 @@ export default class TaskListView extends Component {
 
       handleTaskPress = (item) => {
             // console.log(item.taskContent, '+++++++++++++++++++++++++++++');
-            const { activityData } = this.state;
+            const activityData = this.props.navigation.state.params.activityData;
             this.props.navigation.navigate('HTMLViewScreen', {
                   taskData: {
                         activityName: activityData.activityName,
@@ -81,7 +79,7 @@ export default class TaskListView extends Component {
                                     <Icon name="check-circle" size={20} color={(item.addedTask) ? '#00cc99' : "#bfbfbf"} />
                                     <Text style={{ fontFamily: 'SourceSansPro-Light', fontSize: 16, marginLeft: 10, color: (item.addedTask) ? '#00cc99' : "#333333" }}>{item.taskName}</Text>
                               </View>
-                              <Icon name="chevron-right" size={20} color="#bfbfbf" />
+                              <Icon name="chevron-right" size={20} color={(item.addedTask) ? '#00cc99' : "#bfbfbf"} />
                         </View>
                   </TouchableOpacity>
             );
@@ -107,7 +105,7 @@ export default class TaskListView extends Component {
                         </View>
                         <SafeAreaView style={{ flex: 1, backgroundColor: '#e6e6e6' }}>
                               <FlatList
-                                    data={this.state.taskData}
+                                    data={this.props.navigation.state.params.activityData.taskList}
                                     renderItem={({ item }) => this.renderItem(item)}
                                     keyExtractor={item => `${item.taskName}_${item.taskId}`}
                               />

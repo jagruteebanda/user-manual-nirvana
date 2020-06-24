@@ -43,10 +43,15 @@ window.UserManualNirvana.getPDFDetails = () => {
 }
 
 window.UserManualNirvana.setTaskContentUploadDetails = (taskContentDetails) => {
-      window.UserManualNirvana['taskContentDetails'] = taskContentDetails;
+      if (window.UserManualNirvana['taskContentDetails'])
+            window.UserManualNirvana['taskContentDetails'].push(taskContentDetails);
+      else {
+            window.UserManualNirvana['taskContentDetails'] = [];
+            window.UserManualNirvana['taskContentDetails'].push(taskContentDetails);
+      }
 }
 
 window.UserManualNirvana.getTaskContentUploadDetails = (taskContentDetails) => {
-      return window.UserManualNirvana['taskContentDetails'];
+      return window.UserManualNirvana['taskContentDetails'] || [];
 }
 
