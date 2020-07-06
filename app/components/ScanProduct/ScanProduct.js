@@ -9,7 +9,8 @@ import {
       Image,
       Platform,
       Alert,
-      ActivityIndicator
+      ActivityIndicator,
+      BackHandler
 } from 'react-native';
 import { RNCamera } from 'react-native-camera-tflite';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -27,6 +28,20 @@ export default class ScanProduct extends Component {
                   showCamera: true,
                   productPartName: ''
             };
+            this.handleBackPress = this.handleBackPress.bind(this);
+      }
+
+      componentDidMount = () => {
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+      }
+
+      componentWillUnmount = () => {
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+      }
+
+      handleBackPress() {
+            this.props.navigation.navigate('AddProductPart');
+            return true;
       }
 
       UNSAFE_componentWillReceiveProps = (nextProps, nextState) => {
@@ -160,9 +175,9 @@ export default class ScanProduct extends Component {
                                                             buttonPositive: 'Ok',
                                                             buttonNegative: 'Cancel',
                                                       }}
-                                                // onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                                                //       console.log(barcodes);
-                                                // }}
+                                                      // onGoogleVisionBarcodesDetected={({ barcodes }) => {
+                                                      //       console.log(barcodes);
+                                                      // }}
                                                 />
                                           </View>
                                           <TouchableWithoutFeedback onPress={() => this.handleCameraClick()}>

@@ -7,7 +7,8 @@ import {
       TextInput,
       TouchableOpacity,
       ToastAndroid,
-      ActivityIndicator
+      ActivityIndicator,
+      BackHandler
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -29,10 +30,22 @@ class SelectModality extends Component {
                   productError: null,
                   loading: false
             }
+            this.handleBackPress = this.handleBackPress.bind(this);
       }
 
       componentDidMount = () => {
             this.getModalities();
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+      }
+
+      componentWillUnmount = () => {
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+      }
+
+      handleBackPress() {
+            // this.props.navigation.goBack(null);
+            this.props.navigation.navigate('Home');  
+            return true;  
       }
 
       getModalities = () => {
