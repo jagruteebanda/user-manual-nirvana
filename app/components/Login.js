@@ -17,7 +17,7 @@ export default class Login extends Component {
             super(props);
             this.state = {
                   email: 'jagruteebanda99@gmail.com',
-                  password: '3RQwfl1tulAKP',
+                  password: 'CRFeD7GTEdbSX',
                   emailError: null,
                   passwordError: null,
                   loading: false
@@ -54,7 +54,7 @@ export default class Login extends Component {
                   })
                         .then(response => response.json())
                         .then(response => {
-                              // console.log(response);
+                              console.log(response);
                               AsyncStorage.setItem('userDetails', JSON.stringify(response));
                               window.UserManualNirvana.setUserDetails(response);
                               this.setState({

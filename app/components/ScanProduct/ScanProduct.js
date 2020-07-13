@@ -79,7 +79,6 @@ export default class ScanProduct extends Component {
 
       handleCameraClick = async () => {
             // this.handleYes();
-            // TODO: Handle else part
             if (this.camera) {
                   const options = { quality: 0.5, base64: true };
                   const data = await this.camera.takePictureAsync(options);
