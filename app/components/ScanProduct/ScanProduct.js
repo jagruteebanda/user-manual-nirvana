@@ -90,6 +90,7 @@ export default class ScanProduct extends Component {
                   })
                         .then(response => response.json())
                         .then(response => {
+                              console.log(response.result);
                               this.setState({ showCamera: true, productPartName: response.result.guess });
                               Alert.alert(
                                     'Classified Product:',
@@ -106,19 +107,19 @@ export default class ScanProduct extends Component {
                               );
                         })
                         .catch(error => {
-                              // console.log("upload error", error);
-                              // Alert.alert(
-                              //       'Image Classification Error:',
-                              //       `There was error while classifying product! Please try again`,
-                              //       [
-                              //             {
-                              //                   text: 'Ok',
-                              //                   onPress: () => this.handleRetake()
-                              //             }
-                              //       ],
-                              //       { cancelable: false },
-                              // );
-                              this.props.navigation.navigate('PDFViewScreen', { productPartName: 'gantry' })
+                              console.log("upload error", error);
+                              Alert.alert(
+                                    'Image Classification Error:',
+                                    `There was error while classifying product! Please try again`,
+                                    [
+                                          {
+                                                text: 'Ok',
+                                                onPress: () => this.handleRetake()
+                                          }
+                                    ],
+                                    { cancelable: false },
+                              );
+                              // this.props.navigation.navigate('PDFViewScreen', { productPartName: 'gantry' })
                         });
             } else {
                   Alert.alert(

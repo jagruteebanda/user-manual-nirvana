@@ -29,11 +29,11 @@ export default class UploadTask extends Component {
     let selectedModality = window.UserManualNirvana.getSelectedModality();
     const payload = [
       {
-        name: this.state.taskName,
+        name: taskData.taskName,
         taskNumber: `${selectedModality.abbr}_*`,
         accessLevelId: 1,
         contentId: taskData.contentId,
-        description: this.state.taskDescription,
+        description: taskData.taskDescription,
         revesion: this.state.revesionNumber,
         isDraft: true,
         isActive: true,
@@ -41,7 +41,9 @@ export default class UploadTask extends Component {
         modalityId: selectedModality.id,
       },
     ];
+    console.log(payload, '====================');
     http.post('https://az19fgwa01t.azurewebsites.net/Task', null, payload, (err, res) => {
+      console.log(err, res);
       if (err) {
         ToastAndroid.show("There was error saving the task!", ToastAndroid.SHORT);
       }

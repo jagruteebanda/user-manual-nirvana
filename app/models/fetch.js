@@ -2,7 +2,7 @@ import {
       AsyncStorage
 } from 'react-native';
 
-function get(url, headers, cb) {
+const get = (url, headers, cb) => {
       fetch(url, {
             method: "GET",
             headers: {
@@ -15,7 +15,7 @@ function get(url, headers, cb) {
             .then(response => response.json())
             .then(response => {
                   // console.log('HTTP GET Response:: ', response);
-                  if (response.statusCode === 401) {
+                  if (response.code === 401 || response.statusCode === 401) {
                         // Expired refresh token
                         refreshToken((err, res) => {
                               if (res) {
@@ -24,12 +24,12 @@ function get(url, headers, cb) {
                                     cb(err, null);
                               }
                         })
-                  } else if (response.statusCode === 403) {
+                  } else if (response.code === 403 || response.statusCode === 403) {
                         cb(error, null);
-                  } else if (response.statusCode === 500) {
+                  } else if (response.code === 500 || response.statusCode === 500) {
                         // Internal server error occurred
                         cb(error, null);
-                  } else if (response.statusCode === 200) {
+                  } else if (response.code === 200 || response.statusCode === 200) {
                         cb(null, response);
                   } else {
                         cb(null, response);
@@ -41,7 +41,7 @@ function get(url, headers, cb) {
             });
 }
 
-function post(url, headers, payload, cb) {
+ const post = (url, headers, payload, cb) => {
       fetch(url, {
             method: "POST",
             headers: {
@@ -54,22 +54,22 @@ function post(url, headers, payload, cb) {
       })
             .then(response => response.json())
             .then(response => {
-                  // console.log('HTTP POST Response:: ', response);
-                  if (response.statusCode === 401) {
+                  console.log('HTTP POST Response:: ', response);
+                  if (response.code === 401 || response.statusCode === 401) {
                         // Expired refresh token
                         refreshToken((err, res) => {
                               if (res) {
-                                    httpPost(url, headers, cb);
+                                    post(url, headers, payload, cb);
                               } else {
                                     cb(err, null);
                               }
                         })
-                  } else if (response.statusCode === 403) {
-                        cb(error, null);
-                  } else if (response.statusCode === 500) {
+                  } else if (response.code === 403 || response.statusCode === 403) {
+                        cb(response.error, null);
+                  } else if (response.code === 500 || response.statusCode === 500) {
                         // Internal server error occurred
-                        cb(error, null);
-                  } else if (response.statusCode === 200) {
+                        cb(response.error, null);
+                  } else if (response.code === 200 || response.statusCode === 200) {
                         console.log('yahape aaya')
                         cb(null, response);
                   } else {
@@ -77,12 +77,12 @@ function post(url, headers, payload, cb) {
                   }
             })
             .catch(error => {
-                  // console.log("upload error", error);
-                  cb(error, null);
+                  console.log("upload error", error, cb);
+                  // cb(error, null);
             });
 }
 
-function refreshToken(cb) {
+const refreshToken = (cb) => {
       post(
             'https://az19fgwa01t.azurewebsites.net/login/refresh-token',
             null,
